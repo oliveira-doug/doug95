@@ -164,17 +164,8 @@ export function HeroSection() {
           </Badge>
         </div>
 
-        {/* 2. Nome do studio — identidade da marca (imponente) */}
-        <div className="flex flex-col items-center gap-5 animate-fade-up animate-delay-100">
-          <p className="font-display italic text-[clamp(2rem,7vw,4.5rem)]
-                        text-charcoal-800 leading-[1.05] tracking-wide text-balance">
-            Studio{' '}
-            <span className="not-italic text-gold-400 mx-2 md:mx-3 font-light">|</span>
-            Ira Oliveira{' '}
-            <span className="not-italic text-gold-400 mx-2 md:mx-3 font-light">|</span>
-            Salão de Beleza
-          </p>
-
+        {/* 2. Divisor ornamental — transição elegante (nome do salão fica no Header) */}
+        <div className="animate-fade-up animate-delay-100">
           <GoldDivider />
         </div>
 
