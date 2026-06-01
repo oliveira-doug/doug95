@@ -123,8 +123,9 @@ export function HeroSection() {
 
       <BackgroundOrbs />
 
-      {/* Bloco central — tudo alinhado ao centro */}
-      <div className="relative z-10 w-full max-w-content-sm mx-auto px-6 lg:px-8 py-section-lg
+      {/* Bloco central — tudo alinhado ao centro (topo mais próximo do header) */}
+      <div className="relative z-10 w-full max-w-content-sm mx-auto px-6 lg:px-8
+                      pt-16 md:pt-20 pb-32 md:pb-40
                       flex flex-col items-center text-center gap-8">
 
         {/* 1. Badge de localização */}

@@ -16,7 +16,7 @@ export function Header() {
                       text-charcoal-800 leading-none tracking-wide text-center select-none">
           Studio{' '}
           <span className="not-italic text-gold-400 mx-1.5 md:mx-2 font-light">|</span>
-          Ira Oliveira{' '}
+          Íra Oliveira{' '}
           <span className="not-italic text-gold-400 mx-1.5 md:mx-2 font-light">|</span>
           Salão de Beleza
         </p>
