@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Badge } from '@/components/atoms/Badge/Badge'
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
+import { Reveal } from '@/components/atoms/Reveal/Reveal'
 import { CONTACT } from '@/config/site'
 
 // ─── Dados reais do Studio Íra Oliveira ──────────────────────────────────────
@@ -112,11 +113,19 @@ const SERVICES: Service[] = [
 function ServiceCard({ service }: { service: Service }) {
   return (
     <article
-      className="group relative flex flex-col gap-4 h-full p-7 rounded-card
+      className="group relative flex flex-col gap-4 h-full p-7 rounded-card overflow-hidden
                  bg-ivory-50 border border-ivory-300
                  shadow-card-rest hover:shadow-card-hover hover:-translate-y-1
                  transition-all duration-300 ease-smooth"
     >
+      {/* Filete dourado que cresce no hover — detalhe editorial */}
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-[3px] bg-gradient-gold
+                   origin-left scale-x-0 group-hover:scale-x-100
+                   transition-transform duration-500 ease-smooth"
+      />
+
       {/* Selo de especialidade (loiros) */}
       {service.featured && (
         <Badge
@@ -173,13 +182,22 @@ export function ServicesSection() {
     <section
       id="servicos"
       aria-label="Serviços do Studio Íra Oliveira"
-      className="w-full bg-ivory-100 py-section-md"
+      className="relative w-full bg-ivory-100 py-section-md overflow-hidden"
     >
-      <div className="max-w-content mx-auto px-6 lg:px-8">
+      {/* Glow dourado sutil — atmosfera de fundo */}
+      <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute -top-24 right-[-10%] w-[480px] h-[480px] rounded-full blur-[150px]"
+          style={{ background: 'radial-gradient(circle, rgba(228,192,110,0.18) 0%, transparent 70%)' }}
+        />
+      </div>
+
+      <div className="relative max-w-content mx-auto px-6 lg:px-8">
 
         {/* Cabeçalho da seção */}
+        <Reveal>
         <SectionHeading
-          className="mb-10 animate-fade-up"
+          className="mb-10"
           eyebrow="Nossos Serviços"
           titleClassName="max-w-[18ch]"
           title={
@@ -189,6 +207,7 @@ export function ServicesSection() {
           }
           description="Cada procedimento é pensado para realçar a sua beleza natural com técnica, cuidado e produtos de alta performance. Valores sob consulta, de acordo com o seu cabelo."
         />
+        </Reveal>
 
         {/* Filtro por categoria */}
         <div

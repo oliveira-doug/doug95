@@ -26,11 +26,27 @@ const jost = Jost({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Salão da Íra — Beleza com Sofisticação',
-    template: '%s | Salão da Íra',
+    default: 'Studio Íra Oliveira — Salão de Beleza em Montes Claros',
+    template: '%s | Studio Íra Oliveira',
   },
   description:
-    'Procedimentos exclusivos com profissionais certificadas. Cabelo, unhas, estética e muito mais em um ambiente pensado para você.',
+    'Especialistas em loiros, coloração e tratamentos capilares em Montes Claros-MG. Do diagnóstico ao resultado final, com técnica, cuidado e acabamento premium.',
+  keywords: [
+    'salão de beleza',
+    'Montes Claros',
+    'loiros',
+    'coloração',
+    'mechas e luzes',
+    'tratamento capilar',
+    'Studio Íra Oliveira',
+  ],
+  openGraph: {
+    title: 'Studio Íra Oliveira — Salão de Beleza em Montes Claros',
+    description:
+      'Especialistas em loiros, coloração e tratamentos capilares. Realce a sua beleza natural.',
+    locale: 'pt_BR',
+    type: 'website',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -39,7 +55,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="pt-BR"
       className={`${cormorant.variable} ${dmSans.variable} ${jost.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Textura de grão sobre toda a página — profundidade sutil */}
+        <div className="grain-overlay" aria-hidden="true" />
+      </body>
     </html>
   )
 }

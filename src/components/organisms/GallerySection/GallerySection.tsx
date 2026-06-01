@@ -5,6 +5,7 @@
 // foto ainda não exista na pasta — evitando ícone de imagem quebrada.
 
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
+import { Reveal } from '@/components/atoms/Reveal/Reveal'
 import { CONTACT } from '@/config/site'
 
 const GALLERY = [
@@ -22,17 +23,20 @@ export function GallerySection() {
 
       {/* Header */}
       <div className="max-w-content mx-auto px-6 lg:px-8">
-        <SectionHeading
-          className="mb-10"
-          tone="dark"
-          eyebrow="Transformações Reais"
-          title="Resultados que falam por si"
-          description="Cada transformação é uma história. Veja o trabalho de quem cuida com técnica, amor e atenção aos detalhes."
-        />
+        <Reveal>
+          <SectionHeading
+            className="mb-10"
+            tone="dark"
+            eyebrow="Transformações Reais"
+            title="Resultados que falam por si"
+            description="Cada transformação é uma história. Veja o trabalho de quem cuida com técnica, amor e atenção aos detalhes."
+          />
+        </Reveal>
       </div>
 
       {/* Grid Premium — 2 colunas mobile, 4 colunas desktop */}
       <div className="max-w-content mx-auto px-6 lg:px-8">
+        <Reveal delay={100}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {GALLERY.map((photo) => (
             <div key={photo.src}
@@ -67,10 +71,11 @@ export function GallerySection() {
             </div>
           ))}
         </div>
+        </Reveal>
       </div>
 
       {/* CTA Instagram */}
-      <div className="mt-10 flex justify-center">
+      <Reveal delay={150} className="mt-10 flex justify-center">
         <a href={CONTACT.instagram}
            target="_blank" rel="noopener noreferrer"
            className="inline-flex items-center gap-2 px-6 py-3 rounded-badge
@@ -86,7 +91,7 @@ export function GallerySection() {
           </svg>
           Ver mais no {CONTACT.instagramHandle}
         </a>
-      </div>
+      </Reveal>
     </section>
   )
 }

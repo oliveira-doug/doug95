@@ -1,5 +1,6 @@
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
+import { Reveal } from '@/components/atoms/Reveal/Reveal'
 import { ADDRESS, CONTACT } from '@/config/site'
 
 function MapOrPlaceholder() {
@@ -39,20 +40,30 @@ function MapOrPlaceholder() {
 export function LocationSection() {
   return (
     <section id="localizacao" aria-label="Localização do Studio Íra Oliveira"
-             className="w-full bg-ivory-100 py-section-md">
+             className="relative w-full bg-ivory-100 py-section-md overflow-hidden">
 
-      <div className="max-w-content mx-auto px-6 lg:px-8">
+      {/* Glow blush sutil — atmosfera de fundo */}
+      <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute bottom-[-15%] left-[-8%] w-[440px] h-[440px] rounded-full blur-[140px]"
+          style={{ background: 'radial-gradient(circle, rgba(212,179,170,0.16) 0%, transparent 70%)' }}
+        />
+      </div>
+
+      <div className="relative max-w-content mx-auto px-6 lg:px-8">
 
         {/* Header centralizado */}
-        <SectionHeading
-          className="mb-12"
-          eyebrow="Como Chegar"
-          title="Venha nos visitar"
-          description="Estamos em Montes Claros, no coração do bairro Funcionários. Fácil acesso e estacionamento próximo."
-        />
+        <Reveal>
+          <SectionHeading
+            className="mb-12"
+            eyebrow="Como Chegar"
+            title="Venha nos visitar"
+            description="Estamos em Montes Claros, no coração do bairro Funcionários. Fácil acesso e estacionamento próximo."
+          />
+        </Reveal>
 
         {/* Grid: Info + Mapa */}
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
+        <Reveal delay={100} className="grid lg:grid-cols-2 gap-8 items-start">
 
           {/* Informações de contato */}
           <div className="flex flex-col gap-6">
@@ -128,7 +139,7 @@ export function LocationSection() {
             <MapOrPlaceholder />
           </div>
 
-        </div>
+        </Reveal>
       </div>
     </section>
   )
