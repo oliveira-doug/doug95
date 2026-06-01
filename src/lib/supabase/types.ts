@@ -13,16 +13,27 @@ export type AgendamentoStatus =
 export type PagamentoMetodo = 'pix' | 'cartao' | 'dinheiro'
 export type PagamentoStatus = 'pendente' | 'pago' | 'estornado' | 'falhou'
 
+export interface Tenant {
+  id: string
+  nome: string
+  dominio: string | null
+  ativo: boolean
+  created_at: string
+}
+
 export interface Profile {
   id: string
+  tenant_id: string
   nome: string
   telefone: string | null
   papel: Papel
+  super_admin: boolean
   created_at: string
 }
 
 export interface Profissional {
   id: string
+  tenant_id: string
   nome: string
   bio: string | null
   profile_id: string | null
@@ -33,6 +44,7 @@ export interface Profissional {
 
 export interface Servico {
   id: string
+  tenant_id: string
   nome: string
   categoria: string
   descricao: string | null
@@ -45,6 +57,7 @@ export interface Servico {
 
 export interface Horario {
   id: string
+  tenant_id: string
   profissional_id: string
   dia_semana: number
   abre: string
@@ -53,6 +66,7 @@ export interface Horario {
 
 export interface Bloqueio {
   id: string
+  tenant_id: string
   profissional_id: string
   inicio: string
   fim: string
@@ -62,6 +76,7 @@ export interface Bloqueio {
 
 export interface Agendamento {
   id: string
+  tenant_id: string
   profissional_id: string
   servico_id: string | null
   cliente_id: string | null
@@ -77,6 +92,7 @@ export interface Agendamento {
 
 export interface Atendimento {
   id: string
+  tenant_id: string
   agendamento_id: string | null
   profissional_id: string
   cliente_nome: string | null
@@ -88,6 +104,7 @@ export interface Atendimento {
 
 export interface AtendimentoItem {
   id: string
+  tenant_id: string
   atendimento_id: string
   servico_id: string | null
   descricao: string
@@ -97,6 +114,7 @@ export interface AtendimentoItem {
 
 export interface Pagamento {
   id: string
+  tenant_id: string
   atendimento_id: string
   metodo: PagamentoMetodo
   valor: number
@@ -111,6 +129,7 @@ type Row<T> = { Row: T; Insert: Partial<T>; Update: Partial<T>; Relationships: [
 export interface Database {
   public: {
     Tables: {
+      tenants: Row<Tenant>
       profiles: Row<Profile>
       profissionais: Row<Profissional>
       servicos: Row<Servico>
