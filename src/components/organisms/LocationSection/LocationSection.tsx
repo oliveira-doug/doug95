@@ -1,8 +1,12 @@
 import { MapPin, Clock } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
+import { WhatsAppLink } from '@/components/atoms/WhatsAppLink/WhatsAppLink'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
 import { Reveal } from '@/components/atoms/Reveal/Reveal'
 import { ADDRESS, CONTACT } from '@/config/site'
+
+const LOCAL_WA_MESSAGE =
+  'Olá! Vim pelo site e gostaria de agendar um horário no Studio Íra Oliveira. 💛'
 
 function MapOrPlaceholder() {
   if (ADDRESS.mapEmbedSrc) {
@@ -101,16 +105,18 @@ export function LocationSection() {
 
             {/* Botões de ação */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer"
+              <WhatsAppLink
+                 source="localizacao"
+                 message={LOCAL_WA_MESSAGE}
                  className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-badge
                             bg-gradient-gold text-ivory-50
                             font-accent text-body-sm font-medium tracking-wide
                             shadow-card-rest hover:shadow-card-hover hover:brightness-110
                             transition-all duration-300 ease-smooth"
-                 aria-label="Agendar via WhatsApp">
+                 ariaLabel="Agendar via WhatsApp">
                 <WhatsAppIcon size={18} />
                 Agendar pelo WhatsApp
-              </a>
+              </WhatsAppLink>
 
               <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer"
                  className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-badge

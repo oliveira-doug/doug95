@@ -4,9 +4,12 @@ import { useState } from 'react'
 import { Scissors, Palette, Sparkles, Droplets, Wand2, Sparkle } from 'lucide-react'
 import { Badge } from '@/components/atoms/Badge/Badge'
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
+import { WhatsAppLink } from '@/components/atoms/WhatsAppLink/WhatsAppLink'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
 import { Reveal } from '@/components/atoms/Reveal/Reveal'
-import { CONTACT } from '@/config/site'
+
+const SERVICOS_WA_MESSAGE =
+  'Olá! Vim pelo site e gostaria de uma avaliação e os valores dos serviços do Studio Íra. 💛'
 
 // ─── Dados reais do Studio Íra Oliveira ──────────────────────────────────────
 
@@ -213,20 +216,19 @@ export function ServicesSection() {
           <p className="font-body text-body-sm text-charcoal-700/70 max-w-[40ch]">
             Quer saber o valor ideal para o seu cabelo? Faça uma avaliação sem compromisso.
           </p>
-          <a
-            href={CONTACT.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
+          <WhatsAppLink
+            source="servicos"
+            message={SERVICOS_WA_MESSAGE}
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-badge
                        bg-gradient-gold text-ivory-50 font-accent text-body-lg font-medium tracking-wide
                        shadow-card-rest hover:shadow-card-hover hover:brightness-110 active:scale-[0.97]
                        transition-all duration-300 ease-smooth
                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2"
-            aria-label="Consultar valores pelo WhatsApp"
+            ariaLabel="Consultar valores pelo WhatsApp"
           >
             <WhatsAppIcon size={20} />
             Consultar Valores no WhatsApp
-          </a>
+          </WhatsAppLink>
         </div>
 
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, DM_Sans, Jost } from 'next/font/google'
 import './globals.css'
+import { SITE_URL } from '@/config/site'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -27,7 +28,7 @@ const jost = Jost({
 export const metadata: Metadata = {
   // Em produção, defina NEXT_PUBLIC_SITE_URL (ex.: https://studioira.com.br)
   // para que a OG image e os links sociais resolvam com URL absoluta correta.
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Studio Íra Oliveira — Salão de Beleza em Montes Claros',
     template: '%s | Studio Íra Oliveira',
