@@ -25,6 +25,9 @@ const jost = Jost({
 })
 
 export const metadata: Metadata = {
+  // Em produção, defina NEXT_PUBLIC_SITE_URL (ex.: https://studioira.com.br)
+  // para que a OG image e os links sociais resolvam com URL absoluta correta.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
   title: {
     default: 'Studio Íra Oliveira — Salão de Beleza em Montes Claros',
     template: '%s | Studio Íra Oliveira',
