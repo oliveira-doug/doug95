@@ -1,3 +1,4 @@
+import { MapPin, Clock } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
 import { Reveal } from '@/components/atoms/Reveal/Reveal'
@@ -71,11 +72,8 @@ export function LocationSection() {
             {/* Endereço */}
             <address className="not-italic flex flex-col gap-1">
               <div className="flex items-start gap-3">
-                <div className="mt-1 w-9 h-9 rounded-full bg-gold-100 border border-gold-200 flex-shrink-0 flex items-center justify-center">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c49a2a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                    <circle cx="12" cy="9" r="2.5"/>
-                  </svg>
+                <div className="mt-1 w-9 h-9 rounded-full bg-gold-100 border border-gold-200 flex-shrink-0 flex items-center justify-center text-gold-500">
+                  <MapPin size={16} strokeWidth={1.5} />
                 </div>
                 <div>
                   <p className="font-accent text-body-md text-charcoal-900 font-semibold">
@@ -90,11 +88,8 @@ export function LocationSection() {
 
             {/* Horários */}
             <div className="flex items-start gap-3">
-              <div className="mt-1 w-9 h-9 rounded-full bg-gold-100 border border-gold-200 flex-shrink-0 flex items-center justify-center">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c49a2a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="9"/>
-                  <path d="M12 7v5l3 3"/>
-                </svg>
+              <div className="mt-1 w-9 h-9 rounded-full bg-gold-100 border border-gold-200 flex-shrink-0 flex items-center justify-center text-gold-500">
+                <Clock size={16} strokeWidth={1.5} />
               </div>
               <div>
                 <p className="font-accent text-body-md text-charcoal-900 font-semibold">Horário de Atendimento</p>

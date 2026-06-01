@@ -4,6 +4,7 @@
 // A <div> marfim atrás de cada <img> serve como skeleton elegante caso a
 // foto ainda não exista na pasta — evitando ícone de imagem quebrada.
 
+import { Camera } from 'lucide-react'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
 import { Reveal } from '@/components/atoms/Reveal/Reveal'
 import { CONTACT } from '@/config/site'
@@ -44,12 +45,8 @@ export function GallerySection() {
                             bg-[#f4f1eb] shadow-card-rest">
               {/* Skeleton/placeholder marfim fica visível enquanto a foto não carrega */}
               <div aria-hidden="true"
-                   className="absolute inset-0 flex items-center justify-center bg-[#f4f1eb]">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="opacity-30">
-                  <rect x="4" y="6" width="24" height="20" rx="3" stroke="#c49a2a" strokeWidth="1.4"/>
-                  <circle cx="11" cy="14" r="2.5" stroke="#c49a2a" strokeWidth="1.4"/>
-                  <path d="M4 22l7-6 5 5 4-4 8 7" stroke="#c49a2a" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                   className="absolute inset-0 flex items-center justify-center bg-[#f4f1eb] text-gold-500">
+                <Camera size={32} strokeWidth={1.4} className="opacity-30" />
               </div>
 
               {/* Imagem real (caminho local) por cima do placeholder */}

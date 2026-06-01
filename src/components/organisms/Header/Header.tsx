@@ -1,14 +1,17 @@
 // ── Header ──────────────────────────────────────────────────────────────────
 // Barra de marca minimalista no topo. Mesmo espírito do Footer (paleta Ouro
-// sobre Marfim, fundo discreto). Apenas a assinatura do studio, centralizada.
+// sobre Marfim, fundo discreto). Selo + assinatura do studio, centralizados.
+
+import { LogoMark } from '@/components/atoms/Logo/Logo'
 
 export function Header() {
   return (
     <header
       aria-label="Cabeçalho do Studio Íra Oliveira"
-      className="w-full bg-ivory-100/80 backdrop-blur-sm border-b border-ivory-300 py-6 md:py-8"
+      className="w-full bg-ivory-100/80 backdrop-blur-sm border-b border-ivory-300 py-5 md:py-6"
     >
-      <div className="max-w-content mx-auto px-6 lg:px-8 flex justify-center">
+      <div className="max-w-content mx-auto px-6 lg:px-8 flex flex-col items-center gap-2.5">
+        <LogoMark size={38} className="md:w-11 md:h-11" />
         <p className="font-display italic text-[clamp(1.25rem,3.5vw,2rem)]
                       text-charcoal-800 leading-none tracking-wide text-center select-none">
           Studio{' '}

@@ -1,5 +1,6 @@
 'use client'
 
+import { Scissors, Palette, Droplets, ArrowRight } from 'lucide-react'
 import { Badge }         from '@/components/atoms/Badge/Badge'
 import { Button }        from '@/components/atoms/Button/Button'
 import { StatItem }      from '@/components/molecules/StatItem/StatItem'
@@ -15,40 +16,9 @@ const STATS = [
 ] as const
 
 const SPECIALTIES = [
-  {
-    title: 'Hair Stylist',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 3a3 3 0 0 1 0 6H3L9 21"/>
-        <path d="M18 3a3 3 0 0 0 0 6h3L15 21"/>
-        <path d="M12 3v4m0 4v10"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Visagista / Colorista',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="13.5" cy="6.5" r="2.5"/>
-        <circle cx="17.5" cy="10.5" r="2.5"/>
-        <circle cx="8.5"  cy="7.5"  r="2.5"/>
-        <circle cx="6.5"  cy="12.5" r="2.5"/>
-        <path d="M12 20a4 4 0 0 0 4-4c0-1.6-1.5-2.4-2.5-3.5S12 10 12 10s-1.5 1-2.5 2.5S8 16.4 8 18a4 4 0 0 0 4 2z"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Terapeuta Capilar',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-           strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2a7 7 0 0 1 7 7c0 4-3 6.5-5 8.5a2 2 0 0 1-4 0C8 15.5 5 13 5 9a7 7 0 0 1 7-7z"/>
-        <path d="M12 6v6m-2-3 2 3 2-3"/>
-      </svg>
-    ),
-  },
+  { title: 'Hair Stylist',          icon: <Scissors size={20} strokeWidth={1.5} /> },
+  { title: 'Visagista / Colorista', icon: <Palette size={20} strokeWidth={1.5} /> },
+  { title: 'Terapeuta Capilar',     icon: <Droplets size={20} strokeWidth={1.5} /> },
 ] as const
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -196,10 +166,7 @@ export function HeroSection() {
                   onClick={() => scrollTo('agendar')}
                   aria-label="Agendar horário no Studio Íra Oliveira">
             Agendar Meu Horário
-            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M3.75 9h10.5M9.75 4.5 14.25 9l-4.5 4.5"
-                    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <ArrowRight size={18} strokeWidth={1.5} aria-hidden="true" />
           </Button>
           <InstagramButton />
         </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Scissors, Palette, Sparkles, Droplets, Wand2, Sparkle } from 'lucide-react'
 import { Badge } from '@/components/atoms/Badge/Badge'
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
@@ -22,89 +23,48 @@ interface Service {
   icon: React.ReactNode
 }
 
-/* Ícones de linha — traço fino, acabamento premium */
-const Icon = {
-  scissors: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" />
-      <path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12" />
-    </svg>
-  ),
-  color: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2a7 7 0 0 1 7 7c0 4-3 6.5-5 8.5a2 2 0 0 1-4 0C8 15.5 5 13 5 9a7 7 0 0 1 7-7z" />
-      <path d="M12 6v6m-2-3 2 3 2-3" />
-    </svg>
-  ),
-  drop: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3s6 5.5 6 10a6 6 0 0 1-12 0c0-4.5 6-10 6-10z" />
-      <path d="M9 14a3 3 0 0 0 3 3" />
-    </svg>
-  ),
-  iron: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 7c4-2 8-2 12 0M5 12c4-1.5 8-1.5 12 0M6 17c3.5-1 7-1 10 0" />
-      <path d="M19 5v14" />
-    </svg>
-  ),
-  highlights: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3v3m0 12v3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M3 12h3m12 0h3M5.6 18.4l2.1-2.1m8.6-8.6 2.1-2.1" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  ),
-  sparkle: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6z" />
-    </svg>
-  ),
-}
+/* Ícones Lucide — traço fino (1.5), tamanho consistente (22) */
+const ICON_SIZE = 22
+const ICON_STROKE = 1.5
 
 const SERVICES: Service[] = [
   {
     name: 'Corte Feminino',
     description: 'Corte personalizado segundo o formato do rosto e o seu estilo, com técnica de visagismo.',
     categories: ['Cabelo', 'Visagismo'],
-    icon: Icon.scissors,
+    icon: <Scissors size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
   },
   {
     name: 'Coloração',
     description: 'Cores sob medida, do natural ao ousado, preservando a saúde e o brilho dos fios.',
     categories: ['Coloração'],
     featured: true,
-    icon: Icon.color,
+    icon: <Palette size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
   },
   {
     name: 'Mechas / Luzes',
     description: 'Mechas, luzes e loiros iluminados com técnica refinada — a nossa especialidade.',
     categories: ['Coloração'],
     featured: true,
-    icon: Icon.highlights,
+    icon: <Sparkles size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
   },
   {
     name: 'Hidratação',
     description: 'Reposição profunda de nutrientes e brilho, para fios macios, leves e saudáveis.',
     categories: ['Tratamentos'],
-    icon: Icon.drop,
+    icon: <Droplets size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
   },
   {
     name: 'Progressiva',
     description: 'Redução de volume e alinhamento dos fios com acabamento natural e duradouro.',
     categories: ['Cabelo', 'Tratamentos'],
-    icon: Icon.iron,
+    icon: <Wand2 size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
   },
   {
     name: 'Outros',
     description: 'Penteados, finalização e cuidados especiais sob medida. Fale conosco para uma avaliação.',
     categories: ['Cabelo', 'Tratamentos', 'Visagismo'],
-    icon: Icon.sparkle,
+    icon: <Sparkle size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
   },
 ]
 
