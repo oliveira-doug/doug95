@@ -4,6 +4,7 @@ import { Badge }         from '@/components/atoms/Badge/Badge'
 import { Button }        from '@/components/atoms/Button/Button'
 import { StatItem }      from '@/components/molecules/StatItem/StatItem'
 import { SpecialtyCard } from '@/components/molecules/SpecialtyCard/SpecialtyCard'
+import { CONTACT }       from '@/config/site'
 
 // ─── Dados reais do Studio Íra Oliveira ──────────────────────────────────────
 
@@ -108,7 +109,7 @@ function GoldUnderline() {
 /* Botão Instagram */
 function InstagramButton() {
   return (
-    <a href="https://www.instagram.com/ira_studio/"
+    <a href={CONTACT.instagram}
        target="_blank" rel="noopener noreferrer"
        className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-badge
                   border border-charcoal-700/40 text-charcoal-700 bg-transparent
@@ -122,7 +123,7 @@ function InstagramButton() {
         <circle cx="12" cy="12" r="4"/>
         <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
       </svg>
-      @ira_studio
+      {CONTACT.instagramHandle}
     </a>
   )
 }

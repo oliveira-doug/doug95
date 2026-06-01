@@ -4,6 +4,9 @@
 // A <div> marfim atrás de cada <img> serve como skeleton elegante caso a
 // foto ainda não exista na pasta — evitando ícone de imagem quebrada.
 
+import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
+import { CONTACT } from '@/config/site'
+
 const GALLERY = [
   { src: '/images/transformacoes/foto1.jpg', alt: 'Transformação capilar no Studio Íra Oliveira — penteado especial' },
   { src: '/images/transformacoes/foto2.jpg', alt: 'Transformação capilar no Studio Íra Oliveira — loiro ondulado' },
@@ -18,19 +21,14 @@ export function GallerySection() {
              className="w-full bg-charcoal-900 py-section-md overflow-hidden">
 
       {/* Header */}
-      <div className="max-w-content mx-auto px-6 lg:px-8 mb-10 flex flex-col items-center text-center gap-4">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-badge
-                         bg-gold-900/40 text-gold-300 border border-gold-800/60
-                         font-accent text-label font-semibold uppercase tracking-widest">
-          <span aria-hidden="true">✦</span>
-          Transformações Reais
-        </span>
-        <h2 className="font-display text-display-xl text-ivory-50 tracking-tight">
-          Resultados que falam por si
-        </h2>
-        <p className="font-body text-body-md text-ivory-300 max-w-[44ch]">
-          Cada transformação é uma história. Veja o trabalho de quem cuida com técnica, amor e atenção aos detalhes.
-        </p>
+      <div className="max-w-content mx-auto px-6 lg:px-8">
+        <SectionHeading
+          className="mb-10"
+          tone="dark"
+          eyebrow="Transformações Reais"
+          title="Resultados que falam por si"
+          description="Cada transformação é uma história. Veja o trabalho de quem cuida com técnica, amor e atenção aos detalhes."
+        />
       </div>
 
       {/* Grid Premium — 2 colunas mobile, 4 colunas desktop */}
@@ -73,7 +71,7 @@ export function GallerySection() {
 
       {/* CTA Instagram */}
       <div className="mt-10 flex justify-center">
-        <a href="https://www.instagram.com/ira_studio/"
+        <a href={CONTACT.instagram}
            target="_blank" rel="noopener noreferrer"
            className="inline-flex items-center gap-2 px-6 py-3 rounded-badge
                       border border-gold-600 text-gold-300
@@ -86,7 +84,7 @@ export function GallerySection() {
             <circle cx="12" cy="12" r="4"/>
             <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
           </svg>
-          Ver mais no @ira_studio
+          Ver mais no {CONTACT.instagramHandle}
         </a>
       </div>
     </section>
