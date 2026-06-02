@@ -1,6 +1,8 @@
 // ── Tipos do banco (Supabase) ───────────────────────────────────────────────
 // Mantidos à mão para refletir as migrations em supabase/migrations/.
-// Quando o schema crescer, dá para gerar automaticamente com:
+// Usamos `type` (não `interface`): só type alias satisfaz a constraint
+// Record<string, unknown> que o supabase-js exige para inferir Insert/Update.
+// Para gerar automaticamente quando crescer:
 //   npx supabase gen types typescript --project-id <id> > src/lib/supabase/types.ts
 
 export type Papel = 'admin' | 'profissional' | 'cliente'
@@ -13,7 +15,7 @@ export type AgendamentoStatus =
 export type PagamentoMetodo = 'pix' | 'cartao' | 'dinheiro'
 export type PagamentoStatus = 'pendente' | 'pago' | 'estornado' | 'falhou'
 
-export interface Tenant {
+export type Tenant = {
   id: string
   nome: string
   dominio: string | null
@@ -21,7 +23,7 @@ export interface Tenant {
   created_at: string
 }
 
-export interface Profile {
+export type Profile = {
   id: string
   tenant_id: string
   nome: string
@@ -31,7 +33,7 @@ export interface Profile {
   created_at: string
 }
 
-export interface Profissional {
+export type Profissional = {
   id: string
   tenant_id: string
   nome: string
@@ -42,7 +44,7 @@ export interface Profissional {
   created_at: string
 }
 
-export interface Servico {
+export type Servico = {
   id: string
   tenant_id: string
   nome: string
@@ -55,7 +57,7 @@ export interface Servico {
   created_at: string
 }
 
-export interface Horario {
+export type Horario = {
   id: string
   tenant_id: string
   profissional_id: string
@@ -64,7 +66,7 @@ export interface Horario {
   fecha: string
 }
 
-export interface Bloqueio {
+export type Bloqueio = {
   id: string
   tenant_id: string
   profissional_id: string
@@ -74,7 +76,7 @@ export interface Bloqueio {
   created_at: string
 }
 
-export interface Agendamento {
+export type Agendamento = {
   id: string
   tenant_id: string
   profissional_id: string
@@ -90,7 +92,7 @@ export interface Agendamento {
   created_at: string
 }
 
-export interface Atendimento {
+export type Atendimento = {
   id: string
   tenant_id: string
   agendamento_id: string | null
@@ -102,7 +104,7 @@ export interface Atendimento {
   created_at: string
 }
 
-export interface AtendimentoItem {
+export type AtendimentoItem = {
   id: string
   tenant_id: string
   atendimento_id: string
@@ -112,7 +114,7 @@ export interface AtendimentoItem {
   created_at: string
 }
 
-export interface Pagamento {
+export type Pagamento = {
   id: string
   tenant_id: string
   atendimento_id: string
@@ -123,10 +125,15 @@ export interface Pagamento {
   created_at: string
 }
 
-// Tipagem mínima que o supabase-js consome (genérico Database).
-type Row<T> = { Row: T; Insert: Partial<T>; Update: Partial<T>; Relationships: [] }
+// Estrutura que o supabase-js consome (genérico Database).
+type Row<T> = {
+  Row: T
+  Insert: Partial<T>
+  Update: Partial<T>
+  Relationships: []
+}
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       tenants: Row<Tenant>
@@ -148,5 +155,6 @@ export interface Database {
       pagamento_metodo: PagamentoMetodo
       pagamento_status: PagamentoStatus
     }
+    CompositeTypes: Record<string, never>
   }
 }
