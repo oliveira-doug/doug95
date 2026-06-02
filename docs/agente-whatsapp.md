@@ -9,7 +9,7 @@
 - **Escopo desde o início: tool use** — o Claude consulta disponibilidade real e
   **pré-agenda no Supabase** (`agendamentos`, `origem = 'whatsapp'`), mesma fonte
   de verdade do painel. Não é chatbot genérico.
-- **Número de teste** na validação — **nunca** o número real da Íra (risco de ban).
+- **Número de teste** na validação — **nunca** o número real da Ira (risco de ban).
 - **Produção** → migrar para **WhatsApp Cloud API (oficial, Meta)**: sem risco de
   ban, tier grátis (~1.000 conversas/mês), exige Business + templates.
 

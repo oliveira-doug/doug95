@@ -1,5 +1,5 @@
 // ── Configuração central do site — fonte única da verdade ───────────────────
-// Dados de contato, localização e negócio do Studio Íra Oliveira.
+// Dados de contato, localização e negócio do Studio Ira Oliveira.
 // Mudou o WhatsApp, o Instagram, o endereço ou o horário? Edite APENAS aqui.
 
 // URL pública do site. Em produção, defina NEXT_PUBLIC_SITE_URL no Vercel
@@ -9,8 +9,8 @@ export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 export const SITE = {
-  name: 'Studio Íra Oliveira',
-  shortName: 'Studio Íra',
+  name: 'Studio Ira Oliveira',
+  shortName: 'Studio Ira',
   city: 'Montes Claros — MG',
 } as const
 
@@ -48,7 +48,7 @@ export const ADDRESS = {
 // ── Dados de negócio (para SEO local / Google) ───────────────────────────────
 // Estes campos alimentam os dados estruturados (JSON-LD HairSalon) que o Google
 // usa para exibir o salão na busca com endereço, horário e mapa.
-// ⚠️ Douglas: confirme com a Íra os HORÁRIOS reais antes de publicar — eles
+// ⚠️ Douglas: confirme com a Ira os HORÁRIOS reais antes de publicar — eles
 // aparecem no Google e horário errado frustra cliente. (Mesmos da seção Local.)
 export const BUSINESS = {
   // Telefone em formato internacional legível (E.164 amigável).

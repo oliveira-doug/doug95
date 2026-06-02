@@ -7,7 +7,7 @@ import { LogoMark } from '@/components/atoms/Logo/Logo'
 export function Header() {
   return (
     <header
-      aria-label="Cabeçalho do Studio Íra Oliveira"
+      aria-label="Cabeçalho do Studio Ira Oliveira"
       className="w-full bg-ivory-100/80 backdrop-blur-sm border-b border-ivory-300 py-5 md:py-6"
     >
       <div className="max-w-content mx-auto px-6 lg:px-8 flex flex-col items-center gap-2.5">
@@ -16,7 +16,7 @@ export function Header() {
                       text-charcoal-800 leading-none tracking-wide text-center select-none">
           Studio{' '}
           <span className="not-italic text-gold-400 mx-1.5 md:mx-2 font-light">|</span>
-          Íra Oliveira{' '}
+          Ira Oliveira{' '}
           <span className="not-italic text-gold-400 mx-1.5 md:mx-2 font-light">|</span>
           Salão de Beleza
         </p>

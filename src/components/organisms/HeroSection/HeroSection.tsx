@@ -7,7 +7,7 @@ import { StatItem }      from '@/components/molecules/StatItem/StatItem'
 import { SpecialtyCard } from '@/components/molecules/SpecialtyCard/SpecialtyCard'
 import { CONTACT }       from '@/config/site'
 
-// ─── Dados reais do Studio Íra Oliveira ──────────────────────────────────────
+// ─── Dados reais do Studio Ira Oliveira ──────────────────────────────────────
 
 const STATS = [
   { value: '2.400+', label: 'Clientes Atendidas' },
@@ -86,7 +86,7 @@ function InstagramButton() {
                   font-accent text-body-lg font-medium tracking-wide
                   hover:border-gold-500 hover:text-gold-600
                   transition-all duration-300 ease-smooth"
-       aria-label="Seguir o Studio Íra Oliveira no Instagram">
+       aria-label="Seguir o Studio Ira Oliveira no Instagram">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5"/>
@@ -118,7 +118,7 @@ function ScrollIndicator() {
 
 export function HeroSection() {
   return (
-    <section id="inicio" aria-label="Apresentação do Studio Íra Oliveira"
+    <section id="inicio" aria-label="Apresentação do Studio Ira Oliveira"
              className="relative min-h-screen bg-gradient-hero flex items-center justify-center overflow-hidden">
 
       <BackgroundOrbs />

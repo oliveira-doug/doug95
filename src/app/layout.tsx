@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   // para que a OG image e os links sociais resolvam com URL absoluta correta.
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Studio Íra Oliveira — Salão de Beleza em Montes Claros',
-    template: '%s | Studio Íra Oliveira',
+    default: 'Studio Ira Oliveira — Salão de Beleza em Montes Claros',
+    template: '%s | Studio Ira Oliveira',
   },
   description:
     'Especialistas em loiros, coloração e tratamentos capilares em Montes Claros-MG. Do diagnóstico ao resultado final, com técnica, cuidado e acabamento premium.',
@@ -42,10 +42,10 @@ export const metadata: Metadata = {
     'coloração',
     'mechas e luzes',
     'tratamento capilar',
-    'Studio Íra Oliveira',
+    'Studio Ira Oliveira',
   ],
   openGraph: {
-    title: 'Studio Íra Oliveira — Salão de Beleza em Montes Claros',
+    title: 'Studio Ira Oliveira — Salão de Beleza em Montes Claros',
     description:
       'Especialistas em loiros, coloração e tratamentos capilares. Realce a sua beleza natural.',
     locale: 'pt_BR',

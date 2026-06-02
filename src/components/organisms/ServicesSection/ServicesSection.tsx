@@ -9,9 +9,9 @@ import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHea
 import { Reveal } from '@/components/atoms/Reveal/Reveal'
 
 const SERVICOS_WA_MESSAGE =
-  'Olá! Vim pelo site e tenho uma dúvida sobre os serviços do Studio Íra. 💛'
+  'Olá! Vim pelo site e tenho uma dúvida sobre os serviços do Studio Ira. 💛'
 
-// ─── Dados reais do Studio Íra Oliveira ──────────────────────────────────────
+// ─── Dados reais do Studio Ira Oliveira ──────────────────────────────────────
 
 type Category = 'Cabelo' | 'Coloração' | 'Tratamentos' | 'Visagismo'
 
@@ -144,7 +144,7 @@ export function ServicesSection() {
   return (
     <section
       id="servicos"
-      aria-label="Serviços do Studio Íra Oliveira"
+      aria-label="Serviços do Studio Ira Oliveira"
       className="relative w-full bg-ivory-100 py-section-md overflow-hidden"
     >
       {/* Glow dourado sutil — atmosfera de fundo */}

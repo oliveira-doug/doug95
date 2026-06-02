@@ -1,5 +1,5 @@
 -- ╔══════════════════════════════════════════════════════════════════════════╗
--- ║ Fundação 2.0 — Schema do Studio Íra Oliveira                              ║
+-- ║ Fundação 2.0 — Schema do Studio Ira Oliveira                              ║
 -- ║ Agenda por profissional · comanda (atendimentos) · financeiro · papéis   ║
 -- ╚══════════════════════════════════════════════════════════════════════════╝
 -- Convenções: PK uuid, tempo timestamptz (UTC), dinheiro numeric(10,2),
@@ -25,7 +25,7 @@ create table profiles (
 );
 comment on table profiles is 'Perfil de acesso (papel). Criado automaticamente no signup.';
 
--- ── profissionais ─── Íra, Profissional 1, Profissional 2 ────────────────────
+-- ── profissionais ─── Ira, Profissional 1, Profissional 2 ────────────────────
 create table profissionais (
   id          uuid primary key default gen_random_uuid(),
   nome        text not null,

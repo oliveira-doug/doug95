@@ -10,16 +10,16 @@ import { Reveal } from '@/components/atoms/Reveal/Reveal'
 import { CONTACT } from '@/config/site'
 
 const GALLERY = [
-  { src: '/images/transformacoes/foto1.jpg', alt: 'Transformação capilar no Studio Íra Oliveira — penteado especial' },
-  { src: '/images/transformacoes/foto2.jpg', alt: 'Transformação capilar no Studio Íra Oliveira — loiro ondulado' },
-  { src: '/images/transformacoes/foto3.jpg', alt: 'Transformação capilar no Studio Íra Oliveira — coloração e brilho' },
-  { src: '/images/transformacoes/foto4.jpg', alt: 'Transformação capilar no Studio Íra Oliveira — cachos definidos' },
+  { src: '/images/transformacoes/foto1.jpg', alt: 'Transformação capilar no Studio Ira Oliveira — penteado especial' },
+  { src: '/images/transformacoes/foto2.jpg', alt: 'Transformação capilar no Studio Ira Oliveira — loiro ondulado' },
+  { src: '/images/transformacoes/foto3.jpg', alt: 'Transformação capilar no Studio Ira Oliveira — coloração e brilho' },
+  { src: '/images/transformacoes/foto4.jpg', alt: 'Transformação capilar no Studio Ira Oliveira — cachos definidos' },
 ] as const
 
 /* ── Organismo: GallerySection ── */
 export function GallerySection() {
   return (
-    <section id="galeria" aria-label="Vitrine de transformações do Studio Íra Oliveira"
+    <section id="galeria" aria-label="Vitrine de transformações do Studio Ira Oliveira"
              className="w-full bg-charcoal-900 py-section-md overflow-hidden">
 
       {/* Header */}
@@ -79,7 +79,7 @@ export function GallerySection() {
                       border border-gold-600 text-gold-300
                       font-accent text-body-sm font-medium tracking-wide
                       hover:bg-gold-900/30 transition-all duration-300 ease-smooth"
-           aria-label="Ver mais transformações no Instagram do Studio Íra Oliveira">
+           aria-label="Ver mais transformações no Instagram do Studio Ira Oliveira">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5"/>

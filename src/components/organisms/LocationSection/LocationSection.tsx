@@ -6,14 +6,14 @@ import { Reveal } from '@/components/atoms/Reveal/Reveal'
 import { ADDRESS, CONTACT } from '@/config/site'
 
 const LOCAL_WA_MESSAGE =
-  'Olá! Vim pelo site e tenho uma dúvida sobre o Studio Íra Oliveira. 💛'
+  'Olá! Vim pelo site e tenho uma dúvida sobre o Studio Ira Oliveira. 💛'
 
 function MapOrPlaceholder() {
   if (ADDRESS.mapEmbedSrc) {
     return (
       <iframe
         src={ADDRESS.mapEmbedSrc}
-        title="Localização do Studio Íra Oliveira"
+        title="Localização do Studio Ira Oliveira"
         className="w-full h-full border-0"
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
@@ -44,7 +44,7 @@ function MapOrPlaceholder() {
 
 export function LocationSection() {
   return (
-    <section id="localizacao" aria-label="Localização do Studio Íra Oliveira"
+    <section id="localizacao" aria-label="Localização do Studio Ira Oliveira"
              className="relative w-full bg-ivory-100 py-section-md overflow-hidden">
 
       {/* Glow blush sutil — atmosfera de fundo */}

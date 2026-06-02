@@ -3,7 +3,7 @@
 -- ║ Idempotente: pode ser rodado várias vezes sem erro.                       ║
 -- ╚══════════════════════════════════════════════════════════════════════════╝
 -- Regra de ouro: TODA tabela de negócio tem tenant_id; o RLS isola por tenant.
--- Studio Íra é o tenant fixo nº 1 até existir resolução por domínio.
+-- Studio Ira é o tenant fixo nº 1 até existir resolução por domínio.
 
 -- ── Tabela de tenants ────────────────────────────────────────────────────────
 create table if not exists tenants (
@@ -15,7 +15,7 @@ create table if not exists tenants (
 );
 
 insert into tenants (id, nome, dominio) values
-  ('00000000-0000-0000-0000-000000000001', 'Studio Íra Oliveira', 'studioira.com.br')
+  ('00000000-0000-0000-0000-000000000001', 'Studio Ira Oliveira', 'studioira.com.br')
 on conflict (id) do nothing;
 
 -- ── Colunas (super_admin + tenant_id em todas as tabelas) ────────────────────
@@ -31,7 +31,7 @@ alter table atendimentos      add column if not exists tenant_id uuid;
 alter table atendimento_itens add column if not exists tenant_id uuid;
 alter table pagamentos        add column if not exists tenant_id uuid;
 
--- ── Backfill: tudo que já existe pertence ao Studio Íra ──────────────────────
+-- ── Backfill: tudo que já existe pertence ao Studio Ira ──────────────────────
 update profiles          set tenant_id = '00000000-0000-0000-0000-000000000001' where tenant_id is null;
 update profissionais     set tenant_id = '00000000-0000-0000-0000-000000000001' where tenant_id is null;
 update servicos          set tenant_id = '00000000-0000-0000-0000-000000000001' where tenant_id is null;

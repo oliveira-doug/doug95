@@ -5,7 +5,7 @@ import { ImageResponse } from 'next/og'
 // ── OG image — miniatura de compartilhamento (WhatsApp, Instagram, Google) ───
 // Gerada com next/og (Satori). 1200×630 = padrão Open Graph.
 
-export const alt = 'Studio Íra Oliveira — Salão de Beleza em Montes Claros'
+export const alt = 'Studio Ira Oliveira — Salão de Beleza em Montes Claros'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -76,7 +76,7 @@ export default async function OpengraphImage() {
             letterSpacing: '-2px',
           }}
         >
-          Studio Íra Oliveira
+          Studio Ira Oliveira
         </div>
 
         {/* Divisor ornamental — losango em CSS (sem dependência de fonte) */}

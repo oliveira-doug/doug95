@@ -6,7 +6,7 @@
 
 -- ── Profissionais ────────────────────────────────────────────────────────────
 insert into profissionais (nome, ordem) values
-  ('Íra Oliveira', 1),
+  ('Ira Oliveira', 1),
   ('Profissional 1', 2),
   ('Profissional 2', 3);
 

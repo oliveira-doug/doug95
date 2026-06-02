@@ -29,7 +29,7 @@ export async function requireAuth(): Promise<Profile> {
   return profile
 }
 
-/** Exige papel admin (Íra). Profissional/cliente são barrados. */
+/** Exige papel admin (Ira). Profissional/cliente são barrados. */
 export async function requireAdmin(): Promise<Profile> {
   const profile = await requireAuth()
   if (profile.papel !== 'admin') redirect('/dashboard')

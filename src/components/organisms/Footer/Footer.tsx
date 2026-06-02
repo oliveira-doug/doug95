@@ -7,7 +7,7 @@ import { LogoMark } from '@/components/atoms/Logo/Logo'
 export function Footer() {
   return (
     <footer
-      aria-label="Rodapé do Studio Íra Oliveira"
+      aria-label="Rodapé do Studio Ira Oliveira"
       className="w-full bg-ivory-200 border-t border-ivory-300 py-10"
     >
       <div className="max-w-content mx-auto px-6 lg:px-8 flex flex-col items-center gap-3 text-center">

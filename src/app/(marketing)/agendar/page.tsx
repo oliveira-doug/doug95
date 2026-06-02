@@ -7,7 +7,7 @@ import { BookingFlow } from './BookingFlow'
 export const metadata: Metadata = {
   title: 'Agendar horário',
   description:
-    'Reserve seu horário no Studio Íra Oliveira. Escolha o profissional, o dia e a hora — rápido e sem compromisso.',
+    'Reserve seu horário no Studio Ira Oliveira. Escolha o profissional, o dia e a hora — rápido e sem compromisso.',
 }
 
 export default async function AgendarPage() {

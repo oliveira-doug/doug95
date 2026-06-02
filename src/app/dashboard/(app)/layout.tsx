@@ -28,7 +28,7 @@ export default async function DashboardLayout({
           <Link href="/dashboard" className="flex items-center gap-2.5">
             <LogoMark size={32} />
             <span className="font-display text-display-md text-charcoal-900 leading-none">
-              Studio Íra
+              Studio Ira
             </span>
           </Link>
 

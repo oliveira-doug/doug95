@@ -22,7 +22,7 @@ export default async function LoginPage({
           <LogoMark size={48} />
           <div>
             <h1 className="font-display text-display-md text-charcoal-900">
-              Studio Íra
+              Studio Ira
             </h1>
             <p className="font-accent text-label uppercase tracking-widest text-charcoal-700/60 mt-1">
               Painel de Gestão

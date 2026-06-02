@@ -3,7 +3,7 @@ interface LogoMarkProps {
   className?: string
 }
 
-/* Selo/monograma do Studio Íra Oliveira — "Í" + "O" desenhados como um anel
+/* Selo/monograma do Studio Ira Oliveira — "Í" + "O" desenhados como um anel
    fino (O) com haste serifada central (I) e o ornamento ✦ (acento). Vetorial,
    nítido em qualquer tamanho. Usa o gradiente Ouro Envelhecido. */
 export function LogoMark({ size = 40, className }: LogoMarkProps) {
@@ -14,7 +14,7 @@ export function LogoMark({ size = 40, className }: LogoMarkProps) {
       viewBox="0 0 48 48"
       fill="none"
       role="img"
-      aria-label="Studio Íra Oliveira"
+      aria-label="Studio Ira Oliveira"
       className={className}
     >
       <defs>

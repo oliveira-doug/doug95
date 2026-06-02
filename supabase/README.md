@@ -48,7 +48,7 @@ No projeto → **Authentication → Users → Add user** (email + senha).
 O perfil é criado automaticamente como `cliente`; promova quem for da equipe:
 
 ```sql
--- Vira admin (Íra):
+-- Vira admin (Ira):
 update profiles set papel = 'admin'      where id = '<user-uuid>';
 -- Vira profissional:
 update profiles set papel = 'profissional' where id = '<user-uuid>';
@@ -60,7 +60,7 @@ agenda):
 ```sql
 update profissionais
    set profile_id = '<user-uuid>'
- where nome = 'Íra Oliveira';     -- repita para Profissional 1 e 2
+ where nome = 'Ira Oliveira';     -- repita para Profissional 1 e 2
 ```
 
 ## 5. Testar
