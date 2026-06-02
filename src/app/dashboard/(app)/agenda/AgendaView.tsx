@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, Plus, X, Phone, Ban } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus, X, Phone, Ban, ClipboardList } from 'lucide-react'
 import type {
   Agendamento,
   AgendamentoStatus,
@@ -31,6 +31,7 @@ import {
   criarBloqueio,
   removerBloqueio,
 } from './actions'
+import { abrirComandaDoAgendamento } from '../comanda/actions'
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
 import { normalizarTelefoneWa } from '@/lib/telefone'
 import { SITE, ADDRESS } from '@/config/site'
@@ -462,11 +463,23 @@ function DetalheAgendamento({
   onEditar: (ag: Agendamento) => void
   onAtualizado: () => void
 }) {
+  const router = useRouter()
   const [pending, start] = useTransition()
   const [erro, setErro] = useState<string>()
   const [statusAtual, setStatusAtual] = useState<AgendamentoStatus>(ag.status)
   const servico = servicos.find((s) => s.id === ag.servico_id)
   const editavel = statusAtual !== 'cancelado' && statusAtual !== 'concluido'
+  // Comanda faz sentido depois que o atendimento começou.
+  const podeComanda = statusAtual === 'em_atendimento' || statusAtual === 'concluido'
+
+  function abrirComanda() {
+    setErro(undefined)
+    start(async () => {
+      const res = await abrirComandaDoAgendamento(ag.id)
+      if (res.erro) setErro(res.erro)
+      else if (res.id) router.push(`/dashboard/comanda/${res.id}`)
+    })
+  }
 
   function alterar(novo: AgendamentoStatus) {
     setErro(undefined)
@@ -576,6 +589,15 @@ function DetalheAgendamento({
               {a.label}
             </button>
           ))}
+          {podeComanda && (
+            <button
+              onClick={abrirComanda}
+              disabled={pending}
+              className="h-10 px-4 rounded-badge border border-gold-300 bg-gold-50/60 text-gold-700 font-accent text-body-sm font-medium hover:bg-gold-100 disabled:opacity-60 transition-all cursor-pointer inline-flex items-center gap-2"
+            >
+              <ClipboardList size={16} /> Abrir comanda
+            </button>
+          )}
           {editavel && (
             <button
               onClick={() => onEditar(ag)}
