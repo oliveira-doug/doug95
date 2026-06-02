@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Scissors, Palette, Sparkles, Droplets, Wand2, Sparkle } from 'lucide-react'
+import { Scissors, Palette, Sparkles, Droplets, Wand2, Sparkle, CalendarCheck } from 'lucide-react'
 import { Badge } from '@/components/atoms/Badge/Badge'
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
 import { WhatsAppLink } from '@/components/atoms/WhatsAppLink/WhatsAppLink'
@@ -9,7 +9,7 @@ import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHea
 import { Reveal } from '@/components/atoms/Reveal/Reveal'
 
 const SERVICOS_WA_MESSAGE =
-  'Olá! Vim pelo site e gostaria de uma avaliação e os valores dos serviços do Studio Íra. 💛'
+  'Olá! Vim pelo site e tenho uma dúvida sobre os serviços do Studio Íra. 💛'
 
 // ─── Dados reais do Studio Íra Oliveira ──────────────────────────────────────
 
@@ -211,23 +211,31 @@ export function ServicesSection() {
           ))}
         </div>
 
-        {/* CTA — preços sob consulta → WhatsApp */}
+        {/* CTA — agendamento online é o caminho principal; WhatsApp p/ dúvidas */}
         <div className="flex flex-col items-center gap-4 mt-12 text-center animate-fade-up animate-delay-200">
           <p className="font-body text-body-sm text-charcoal-700/70 max-w-[40ch]">
-            Quer saber o valor ideal para o seu cabelo? Faça uma avaliação sem compromisso.
+            Quer saber o valor ideal para o seu cabelo? Agende uma avaliação sem compromisso.
           </p>
-          <WhatsAppLink
-            source="servicos"
-            message={SERVICOS_WA_MESSAGE}
+          <a
+            href="#agendar"
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-badge
                        bg-gradient-gold text-ivory-50 font-accent text-body-lg font-medium tracking-wide
                        shadow-card-rest hover:shadow-card-hover hover:brightness-110 active:scale-[0.97]
                        transition-all duration-300 ease-smooth
                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2"
-            ariaLabel="Consultar valores pelo WhatsApp"
+            aria-label="Agendar avaliação online"
           >
-            <WhatsAppIcon size={20} />
-            Consultar Valores no WhatsApp
+            <CalendarCheck size={20} strokeWidth={1.5} />
+            Agendar Avaliação
+          </a>
+          <WhatsAppLink
+            source="servicos"
+            message={SERVICOS_WA_MESSAGE}
+            className="inline-flex items-center gap-1.5 font-accent text-body-sm font-medium text-charcoal-700/70 hover:text-gold-600 transition-colors"
+            ariaLabel="Tirar dúvidas pelo WhatsApp"
+          >
+            <WhatsAppIcon size={15} />
+            Dúvidas sobre valores? Fale no WhatsApp
           </WhatsAppLink>
         </div>
 

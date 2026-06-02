@@ -1,4 +1,4 @@
-import { MapPin, Clock } from 'lucide-react'
+import { MapPin, Clock, CalendarCheck } from 'lucide-react'
 import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
 import { WhatsAppLink } from '@/components/atoms/WhatsAppLink/WhatsAppLink'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
@@ -6,7 +6,7 @@ import { Reveal } from '@/components/atoms/Reveal/Reveal'
 import { ADDRESS, CONTACT } from '@/config/site'
 
 const LOCAL_WA_MESSAGE =
-  'Olá! Vim pelo site e gostaria de agendar um horário no Studio Íra Oliveira. 💛'
+  'Olá! Vim pelo site e tenho uma dúvida sobre o Studio Íra Oliveira. 💛'
 
 function MapOrPlaceholder() {
   if (ADDRESS.mapEmbedSrc) {
@@ -104,18 +104,28 @@ export function LocationSection() {
             </div>
 
             {/* Botões de ação */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <WhatsAppLink
-                 source="localizacao"
-                 message={LOCAL_WA_MESSAGE}
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 pt-2">
+              <a href="#agendar"
                  className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-badge
                             bg-gradient-gold text-ivory-50
                             font-accent text-body-sm font-medium tracking-wide
                             shadow-card-rest hover:shadow-card-hover hover:brightness-110
                             transition-all duration-300 ease-smooth"
-                 ariaLabel="Agendar via WhatsApp">
-                <WhatsAppIcon size={18} />
-                Agendar pelo WhatsApp
+                 aria-label="Agendar online">
+                <CalendarCheck size={17} strokeWidth={1.5} />
+                Agendar online
+              </a>
+
+              <WhatsAppLink
+                 source="localizacao"
+                 message={LOCAL_WA_MESSAGE}
+                 className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-badge
+                            border border-gold-500 text-gold-600 bg-transparent
+                            font-accent text-body-sm font-medium tracking-wide
+                            hover:bg-gold-50 transition-all duration-300 ease-smooth"
+                 ariaLabel="Tirar dúvidas no WhatsApp">
+                <WhatsAppIcon size={17} />
+                Tirar dúvidas
               </WhatsAppLink>
 
               <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer"

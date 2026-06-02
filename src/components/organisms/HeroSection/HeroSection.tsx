@@ -5,11 +5,7 @@ import { Badge }         from '@/components/atoms/Badge/Badge'
 import { Button }        from '@/components/atoms/Button/Button'
 import { StatItem }      from '@/components/molecules/StatItem/StatItem'
 import { SpecialtyCard } from '@/components/molecules/SpecialtyCard/SpecialtyCard'
-import { CONTACT, waLink } from '@/config/site'
-import { trackWhatsApp }  from '@/lib/analytics'
-
-const HERO_WA_MESSAGE =
-  'Olá! Vim pelo site do Studio Íra Oliveira e gostaria de agendar um horário. 💛'
+import { CONTACT }       from '@/config/site'
 
 // ─── Dados reais do Studio Íra Oliveira ──────────────────────────────────────
 
@@ -168,11 +164,8 @@ export function HeroSection() {
         {/* 4. CTAs */}
         <div className="flex flex-col sm:flex-row items-center gap-4 animate-fade-up animate-delay-300">
           <Button size="lg" variant="primary"
-                  onClick={() => {
-                    trackWhatsApp('hero')
-                    window.open(waLink(HERO_WA_MESSAGE), '_blank', 'noopener,noreferrer')
-                  }}
-                  aria-label="Agendar horário no Studio Íra Oliveira pelo WhatsApp">
+                  onClick={() => scrollTo('agendar')}
+                  aria-label="Ir para o agendamento online">
             Agendar Meu Horário
             <ArrowRight size={18} strokeWidth={1.5} aria-hidden="true" />
           </Button>
