@@ -7,14 +7,18 @@ import { ChevronLeft, Plus, Trash2, Receipt } from 'lucide-react'
 import type {
   Atendimento,
   AtendimentoItem,
+  Pagamento,
+  PagamentoMetodo,
   Profissional,
   Servico,
 } from '@/lib/supabase/types'
 import { diaLongo, dataLocal, horaLocal } from '@/lib/datas'
-import { formatarBRL, parseBRL } from '@/lib/dinheiro'
+import { formatarBRL, parseBRL, METODO_LABEL } from '@/lib/dinheiro'
 import {
   adicionarItem,
   removerItem,
+  adicionarPagamento,
+  removerPagamento,
   salvarObservacoes,
   excluirAtendimento,
 } from '../actions'
@@ -22,13 +26,22 @@ import {
 type Props = {
   atendimento: Atendimento
   itens: AtendimentoItem[]
+  pagamentos: Pagamento[]
   servicos: Servico[]
   profissionais: Profissional[]
 }
 
-export function ComandaDetalhe({ atendimento, itens, servicos, profissionais }: Props) {
+export function ComandaDetalhe({
+  atendimento,
+  itens,
+  pagamentos,
+  servicos,
+  profissionais,
+}: Props) {
   const router = useRouter()
   const prof = profissionais.find((p) => p.id === atendimento.profissional_id)
+  const pago = pagamentos.reduce((s, p) => s + p.valor, 0)
+  const saldo = atendimento.total - pago
 
   return (
     <div className="flex flex-col gap-6 max-w-2xl">
@@ -92,6 +105,45 @@ export function ComandaDetalhe({ atendimento, itens, servicos, profissionais }: 
         />
       </section>
 
+      {/* Pagamentos */}
+      <section className="rounded-card bg-ivory-50 border border-ivory-300 overflow-hidden">
+        <header className="px-5 py-3 border-b border-ivory-200 flex items-center justify-between">
+          <h2 className="font-accent text-body-lg font-semibold text-charcoal-900">
+            Pagamentos
+          </h2>
+          <span
+            className={`font-accent text-body-sm font-medium ${
+              saldo <= 0 && atendimento.total > 0
+                ? 'text-emerald-600'
+                : 'text-charcoal-700/60'
+            }`}
+          >
+            {saldo <= 0 && atendimento.total > 0
+              ? 'Quitado ✓'
+              : `Falta ${formatarBRL(Math.max(saldo, 0))}`}
+          </span>
+        </header>
+
+        {pagamentos.length > 0 && (
+          <ul className="divide-y divide-ivory-200">
+            {pagamentos.map((p) => (
+              <PagamentoLinha
+                key={p.id}
+                pagamento={p}
+                atendimentoId={atendimento.id}
+                onMudou={() => router.refresh()}
+              />
+            ))}
+          </ul>
+        )}
+
+        <AddPagamentoForm
+          atendimentoId={atendimento.id}
+          saldoSugerido={Math.max(saldo, 0)}
+          onAdicionou={() => router.refresh()}
+        />
+      </section>
+
       {/* Observações */}
       <Observacoes
         atendimentoId={atendimento.id}
@@ -101,9 +153,14 @@ export function ComandaDetalhe({ atendimento, itens, servicos, profissionais }: 
 
       {/* Recibo + excluir */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-        <span className="inline-flex items-center gap-2 font-body text-body-sm text-charcoal-700/50">
-          <Receipt size={16} /> Recibo e cobrança chegam na sub-entrega 2.4–2.5.
-        </span>
+        <a
+          href={`/dashboard/recibo/${atendimento.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 h-10 px-4 rounded-badge border border-ivory-300 text-charcoal-700 font-accent text-body-sm font-medium hover:border-gold-400 hover:text-gold-600 transition-all"
+        >
+          <Receipt size={16} /> Gerar recibo
+        </a>
         <ExcluirComanda
           atendimentoId={atendimento.id}
           onExcluiu={() => router.push('/dashboard/comanda')}
@@ -245,6 +302,134 @@ function AddItemForm({
           className="h-11 px-5 rounded-badge bg-gradient-gold text-ivory-50 font-accent text-body-md font-medium shadow-card-rest hover:brightness-110 disabled:opacity-60 transition-all cursor-pointer inline-flex items-center justify-center gap-2 shrink-0"
         >
           <Plus size={16} /> Adicionar
+        </button>
+      </div>
+
+      {erro && (
+        <p role="alert" className="font-body text-body-sm text-red-600">
+          {erro}
+        </p>
+      )}
+    </div>
+  )
+}
+
+// ── Uma linha de pagamento (com remover) ──────────────────────────────────────
+function PagamentoLinha({
+  pagamento,
+  atendimentoId,
+  onMudou,
+}: {
+  pagamento: Pagamento
+  atendimentoId: string
+  onMudou: () => void
+}) {
+  const [pending, start] = useTransition()
+
+  function remover() {
+    start(async () => {
+      const res = await removerPagamento(pagamento.id, atendimentoId)
+      if (!res.erro) onMudou()
+    })
+  }
+
+  return (
+    <li className="px-5 py-3 flex items-center justify-between gap-4">
+      <span className="font-body text-body-md text-charcoal-900">
+        {METODO_LABEL[pagamento.metodo]}
+      </span>
+      <div className="flex items-center gap-3 shrink-0">
+        <span className="font-accent text-body-md font-medium text-charcoal-900">
+          {formatarBRL(pagamento.valor)}
+        </span>
+        <button
+          onClick={remover}
+          disabled={pending}
+          aria-label="Remover pagamento"
+          className="text-charcoal-700/30 hover:text-red-500 disabled:opacity-40 transition-colors cursor-pointer"
+        >
+          <Trash2 size={16} />
+        </button>
+      </div>
+    </li>
+  )
+}
+
+// ── Form de registrar pagamento ───────────────────────────────────────────────
+const METODOS: PagamentoMetodo[] = ['pix', 'cartao', 'dinheiro']
+
+function AddPagamentoForm({
+  atendimentoId,
+  saldoSugerido,
+  onAdicionou,
+}: {
+  atendimentoId: string
+  saldoSugerido: number
+  onAdicionou: () => void
+}) {
+  const [metodo, setMetodo] = useState<PagamentoMetodo>('pix')
+  const [valor, setValor] = useState('')
+  const [pending, start] = useTransition()
+  const [erro, setErro] = useState<string>()
+
+  function enviar() {
+    setErro(undefined)
+    // Sem valor digitado, usa o saldo restante (atalho comum: pago tudo de uma vez).
+    const bruto = valor.trim() === '' ? String(saldoSugerido).replace('.', ',') : valor
+    const v = parseBRL(bruto)
+    if (v == null || v <= 0) {
+      setErro('Informe um valor válido (ex.: 150,00).')
+      return
+    }
+    start(async () => {
+      const res = await adicionarPagamento({
+        atendimento_id: atendimentoId,
+        metodo,
+        valor: v,
+      })
+      if (res.erro) setErro(res.erro)
+      else {
+        setValor('')
+        onAdicionou()
+      }
+    })
+  }
+
+  return (
+    <div className="px-5 py-4 border-t border-ivory-200 bg-ivory-50/60 flex flex-col gap-3">
+      <div className="flex flex-col sm:flex-row gap-2">
+        <select
+          value={metodo}
+          onChange={(e) => setMetodo(e.target.value as PagamentoMetodo)}
+          className={inputCls + ' sm:w-40'}
+        >
+          {METODOS.map((m) => (
+            <option key={m} value={m}>
+              {METODO_LABEL[m]}
+            </option>
+          ))}
+        </select>
+        <input
+          value={valor}
+          onChange={(e) => setValor(e.target.value)}
+          inputMode="decimal"
+          placeholder={
+            saldoSugerido > 0 ? `Valor (restante ${formatarBRL(saldoSugerido)})` : 'Valor (R$)'
+          }
+          className={inputCls + ' sm:flex-1'}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              enviar()
+            }
+          }}
+        />
+        <button
+          onClick={enviar}
+          disabled={pending}
+          className="h-11 px-5 rounded-badge bg-gradient-gold text-ivory-50 font-accent text-body-md font-medium shadow-card-rest hover:brightness-110 disabled:opacity-60 transition-all cursor-pointer inline-flex items-center justify-center gap-2 shrink-0"
+        >
+          <Plus size={16} /> Registrar
         </button>
       </div>
 

@@ -15,16 +15,22 @@ export default async function ComandaDetalhePage({
 
   const supabase = await createClient()
 
-  const [atendimentoRes, itensRes, servicosRes, profissionaisRes] = await Promise.all([
-    supabase.from('atendimentos').select('*').eq('id', id).maybeSingle(),
-    supabase
-      .from('atendimento_itens')
-      .select('*')
-      .eq('atendimento_id', id)
-      .order('created_at'),
-    supabase.from('servicos').select('*').eq('ativo', true).order('ordem'),
-    supabase.from('profissionais').select('*').eq('ativo', true).order('ordem'),
-  ])
+  const [atendimentoRes, itensRes, pagamentosRes, servicosRes, profissionaisRes] =
+    await Promise.all([
+      supabase.from('atendimentos').select('*').eq('id', id).maybeSingle(),
+      supabase
+        .from('atendimento_itens')
+        .select('*')
+        .eq('atendimento_id', id)
+        .order('created_at'),
+      supabase
+        .from('pagamentos')
+        .select('*')
+        .eq('atendimento_id', id)
+        .order('created_at'),
+      supabase.from('servicos').select('*').eq('ativo', true).order('ordem'),
+      supabase.from('profissionais').select('*').eq('ativo', true).order('ordem'),
+    ])
 
   if (!atendimentoRes.data) notFound()
 
@@ -32,6 +38,7 @@ export default async function ComandaDetalhePage({
     <ComandaDetalhe
       atendimento={atendimentoRes.data}
       itens={itensRes.data ?? []}
+      pagamentos={pagamentosRes.data ?? []}
       servicos={servicosRes.data ?? []}
       profissionais={profissionaisRes.data ?? []}
     />

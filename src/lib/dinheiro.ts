@@ -10,6 +10,13 @@ export function formatarBRL(valor: number): string {
   }).format(valor)
 }
 
+/** Rótulos amigáveis das formas de pagamento. */
+export const METODO_LABEL: Record<'pix' | 'cartao' | 'dinheiro', string> = {
+  pix: 'Pix',
+  cartao: 'Cartão',
+  dinheiro: 'Dinheiro',
+}
+
 /**
  * Converte o que o usuário digitou em número (>= 0) ou null se inválido.
  * Aceita "R$ 1.234,56", "1234,56", "150" e "150.00". Heurística: se houver

@@ -183,6 +183,54 @@ export async function salvarObservacoes(input: unknown): Promise<AcaoResult> {
   return { ok: true }
 }
 
+// ── Pagamentos (pix / cartão / dinheiro) ─────────────────────────────────────
+const pagamentoSchema = z.object({
+  atendimento_id: z.string().uuid('Comanda inválida'),
+  metodo: z.enum(['pix', 'cartao', 'dinheiro']),
+  valor: z.coerce.number().min(0, 'Valor inválido').max(1_000_000, 'Valor muito alto'),
+})
+
+export async function adicionarPagamento(input: unknown): Promise<AcaoResult> {
+  const profile = await requireAuth()
+  const parsed = pagamentoSchema.safeParse(input)
+  if (!parsed.success) {
+    return { erro: parsed.error.issues[0]?.message ?? 'Dados inválidos' }
+  }
+  const d = parsed.data
+
+  const supabase = await createClient()
+  // Registro manual = já recebido ('pago'). O gateway (2.5) usará 'pendente'.
+  const { error } = await supabase.from('pagamentos').insert({
+    tenant_id: profile.tenant_id,
+    atendimento_id: d.atendimento_id,
+    metodo: d.metodo,
+    valor: d.valor,
+    status: 'pago',
+  })
+
+  if (error) return { erro: 'Não foi possível registrar o pagamento. Tente novamente.' }
+
+  revalidatePath(`/dashboard/comanda/${d.atendimento_id}`)
+  return { ok: true }
+}
+
+export async function removerPagamento(
+  pagamentoId: string,
+  atendimentoId: string,
+): Promise<AcaoResult> {
+  await requireAuth()
+  if (!z.string().uuid().safeParse(pagamentoId).success) {
+    return { erro: 'Pagamento inválido' }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.from('pagamentos').delete().eq('id', pagamentoId)
+  if (error) return { erro: 'Não foi possível remover o pagamento. Tente novamente.' }
+
+  revalidatePath(`/dashboard/comanda/${atendimentoId}`)
+  return { ok: true }
+}
+
 // ── Excluir a comanda inteira (itens caem em cascata) ─────────────────────────
 export async function excluirAtendimento(id: string): Promise<AcaoResult> {
   await requireAuth()
