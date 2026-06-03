@@ -4,6 +4,7 @@
 // A <div> marfim atrás de cada <img> serve como skeleton elegante caso a
 // foto ainda não exista na pasta — evitando ícone de imagem quebrada.
 
+import Image from 'next/image'
 import { Camera } from 'lucide-react'
 import { SectionHeading } from '@/components/molecules/SectionHeading/SectionHeading'
 import { Reveal } from '@/components/atoms/Reveal/Reveal'
@@ -50,11 +51,12 @@ export function GallerySection() {
               </div>
 
               {/* Imagem real (caminho local) por cima do placeholder */}
-              <img
+              <Image
                 src={photo.src}
                 alt={photo.alt}
-                loading="lazy"
-                className="relative z-10 w-full h-full object-cover object-top
+                fill
+                sizes="(max-width:768px) 50vw, 25vw"
+                className="relative z-10 object-cover object-top
                            transition-transform duration-700 group-hover:scale-105"
               />
 

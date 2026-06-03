@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
-import { Badge } from '@/components/atoms/Badge/Badge'
 
 interface SectionHeadingProps {
   /** Texto do selo (eyebrow) acima do título. */
@@ -11,41 +10,41 @@ interface SectionHeadingProps {
   description?: ReactNode
   /** 'light' = fundo claro (marfim) · 'dark' = fundo escuro (charcoal). */
   tone?: 'light' | 'dark'
+  /** 'center' (padrão) · 'left' = quebra a simetria, estilo editorial. */
+  align?: 'center' | 'left'
   /** Classes extras no wrapper (ex.: margens, animações). */
   className?: string
   /** Classes extras no <h2> (ex.: max-w para controlar a quebra). */
   titleClassName?: string
 }
 
-/* Cabeçalho de seção padronizado: selo + título + descrição, centralizado.
-   Usado em Vitrine, Serviços e Localização para manter consistência visual. */
+/* Cabeçalho de seção padronizado: kicker (filete dourado + label) + título +
+   descrição. O kicker substitui o selo ✦ repetido por um único elemento sóbrio. */
 export function SectionHeading({
   eyebrow,
   title,
   description,
   tone = 'light',
+  align = 'center',
   className,
   titleClassName,
 }: SectionHeadingProps) {
   const isDark = tone === 'dark'
 
   return (
-    <div className={cn('flex flex-col items-center text-center gap-4', className)}>
-      {isDark ? (
-        <span
-          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-badge
-                     bg-gold-900/40 text-gold-300 border border-gold-800/60
-                     font-accent text-label font-semibold uppercase tracking-widest"
-        >
-          <span aria-hidden="true">✦</span>
-          {eyebrow}
-        </span>
-      ) : (
-        <Badge variant="gold">
-          <span aria-hidden="true">✦</span>
-          {eyebrow}
-        </Badge>
+    <div
+      className={cn(
+        'flex flex-col gap-4',
+        align === 'left' ? 'items-start text-left' : 'items-center text-center',
+        className,
       )}
+    >
+      <span
+        className="kicker"
+        style={isDark ? { color: 'var(--color-gold-300)' } : undefined}
+      >
+        {eyebrow}
+      </span>
 
       <h2
         className={cn(

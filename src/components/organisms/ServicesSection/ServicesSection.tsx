@@ -147,20 +147,13 @@ export function ServicesSection() {
       aria-label="Serviços do Studio Ira Oliveira"
       className="relative w-full bg-ivory-100 py-section-md overflow-hidden"
     >
-      {/* Glow dourado sutil — atmosfera de fundo */}
-      <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-24 right-[-10%] w-[480px] h-[480px] rounded-full blur-[150px]"
-          style={{ background: 'radial-gradient(circle, rgba(228,192,110,0.18) 0%, transparent 70%)' }}
-        />
-      </div>
-
       <div className="relative max-w-content mx-auto px-6 lg:px-8">
 
         {/* Cabeçalho da seção */}
         <Reveal>
         <SectionHeading
           className="mb-10"
+          align="left"
           eyebrow="Nossos Serviços"
           titleClassName="max-w-[18ch]"
           title={

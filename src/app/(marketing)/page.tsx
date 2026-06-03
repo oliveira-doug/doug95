@@ -21,6 +21,21 @@ export default async function HomePage() {
       <main>
         <HeroSection />
         <GallerySection />
+
+        {/* Faixa marquee — manifesto cinético (decorativo) */}
+        <div className="marquee-mask bg-section-dark py-4 border-y border-gold-800/40" aria-hidden="true">
+          <div className="marquee-track font-accent text-label uppercase tracking-[0.18em] text-gold-300">
+            {[0, 1].map((g) => (
+              <span key={g} className="flex items-center gap-8 pr-8">
+                <span>Especialistas em loiros</span><span className="text-gold-600">✦</span>
+                <span>Coloração sob medida</span><span className="text-gold-600">✦</span>
+                <span>Mechas &amp; luzes</span><span className="text-gold-600">✦</span>
+                <span>Montes Claros — MG</span><span className="text-gold-600">✦</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
         <ServicesSection />
         <BookingSection
           profissionais={profissionais.data ?? []}

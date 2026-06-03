@@ -190,3 +190,79 @@
   }
   html { scroll-behavior: auto; }
 }
+
+/* ════════════════════════════════════════════════════════════════════════
+   REFINO PREMIUM v3 — ADIÇÕES (append-only)
+   Estende o sistema "Ouro Envelhecido sobre Marfim" — não substitui nada.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ─── MOVIMENTO 1 · Ritmo claro/escuro (drama editorial) ──────────────────── */
+@utility bg-section-dark {
+  background-color: var(--color-charcoal-900);
+  color: var(--color-ivory-100);
+}
+@utility text-on-dark-muted {
+  color: color-mix(in srgb, var(--color-ivory-100) 65%, transparent);
+}
+
+/* ─── MOVIMENTO 2 · Marquee cinético (faixa de manifesto) ─────────────────── */
+@layer utilities {
+  .marquee-mask  { overflow: hidden; }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 3rem;
+    animation: marquee 32s linear infinite;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* ─── MOVIMENTO 3 · Tipografia empilhada (palavra como imagem) ────────────── */
+@utility text-stack {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+}
+
+/* ─── MOVIMENTO 4 · Kicker único padronizado ──────────────────────────────
+   Filete dourado curto + label (substitui o ✦ repetido).
+   Markup: <span class="kicker">Transformações Reais</span>
+   Nota: o ::before é aninhado dentro do @utility (forma válida no Tailwind v4). */
+@utility kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-700);
+
+  &::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background-color: var(--color-gold-400);
+  }
+}
+
+/* Variante dourada AA-friendly para TEXTO (contraste seguro sobre claro) */
+@utility text-gradient-gold-strong {
+  background: linear-gradient(135deg, #a67e1e 0%, #7d5e16 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   REGRAS DE USO (disciplina — não geram CSS)
+   • text-gradient-gold ....... no máximo 1×/tela (um número OU uma palavra).
+   • ouro como TEXTO .......... só gold-700/800 (AA); 300/400/500 = filetes/ícones.
+   • animações infinitas ...... no máx. 1 detalhe por tela.
+   • --shadow-glow-gold ....... reservar para 1 momento (CTA principal).
+   ════════════════════════════════════════════════════════════════════════ */

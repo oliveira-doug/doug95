@@ -47,20 +47,13 @@ export function LocationSection() {
     <section id="localizacao" aria-label="Localização do Studio Ira Oliveira"
              className="relative w-full bg-ivory-100 py-section-md overflow-hidden">
 
-      {/* Glow blush sutil — atmosfera de fundo */}
-      <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute bottom-[-15%] left-[-8%] w-[440px] h-[440px] rounded-full blur-[140px]"
-          style={{ background: 'radial-gradient(circle, rgba(212,179,170,0.16) 0%, transparent 70%)' }}
-        />
-      </div>
-
       <div className="relative max-w-content mx-auto px-6 lg:px-8">
 
         {/* Header centralizado */}
         <Reveal>
           <SectionHeading
             className="mb-12"
+            align="left"
             eyebrow="Como Chegar"
             title="Venha nos visitar"
             description="Estamos em Montes Claros, no coração do bairro Funcionários. Fácil acesso e estacionamento próximo."
