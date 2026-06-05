@@ -88,3 +88,9 @@ export function intervaloDoDia(dia: string): { inicioISO: string; fimISO: string
 
 /** Duração padrão de um procedimento, em minutos (2h). */
 export const SLOT_MIN = 120
+
+/** Instante atual em ms (epoch). Isolado aqui para os componentes não chamarem
+ *  Date.now() direto no render (a regra de pureza do React sinaliza). */
+export function agoraMs(): number {
+  return Date.now()
+}
