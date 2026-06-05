@@ -11,10 +11,11 @@ export function formatarBRL(valor: number): string {
 }
 
 /** Rótulos amigáveis das formas de pagamento. */
-export const METODO_LABEL: Record<'pix' | 'cartao' | 'dinheiro', string> = {
+export const METODO_LABEL: Record<'pix' | 'cartao' | 'dinheiro' | 'link', string> = {
   pix: 'Pix',
   cartao: 'Cartão',
   dinheiro: 'Dinheiro',
+  link: 'Link Mercado Pago',
 }
 
 /**

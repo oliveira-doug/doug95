@@ -12,7 +12,7 @@ export type AgendamentoStatus =
   | 'em_atendimento'
   | 'concluido'
   | 'cancelado'
-export type PagamentoMetodo = 'pix' | 'cartao' | 'dinheiro'
+export type PagamentoMetodo = 'pix' | 'cartao' | 'dinheiro' | 'link'
 export type PagamentoStatus = 'pendente' | 'pago' | 'estornado' | 'falhou'
 
 export type Tenant = {
@@ -122,6 +122,7 @@ export type Pagamento = {
   valor: number
   status: PagamentoStatus
   ref_gateway: string | null
+  link_url: string | null
   created_at: string
 }
 

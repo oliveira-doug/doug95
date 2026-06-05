@@ -4,11 +4,14 @@ import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth } from '@/lib/auth'
+import { SITE_URL } from '@/config/site'
+import { criarPreferencia, mercadoPagoConfigurado } from '@/lib/mercadopago'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/supabase/types'
 
 export type AcaoResult = { ok?: true; erro?: string }
 export type CriarResult = { ok?: true; id?: string; erro?: string }
+export type LinkResult = { ok?: true; link?: string; erro?: string }
 
 type DB = SupabaseClient<Database>
 
@@ -229,6 +232,81 @@ export async function removerPagamento(
 
   revalidatePath(`/dashboard/comanda/${atendimentoId}`)
   return { ok: true }
+}
+
+// ── Cobrança via link (Mercado Pago) ─────────────────────────────────────────
+const linkSchema = z.object({
+  atendimento_id: z.string().uuid('Comanda inválida'),
+  valor: z.coerce.number().min(0.5, 'Valor mínimo de R$ 0,50').max(1_000_000),
+})
+
+export async function gerarLinkPagamento(input: unknown): Promise<LinkResult> {
+  const profile = await requireAuth()
+
+  if (!mercadoPagoConfigurado()) {
+    return {
+      erro: 'Cobrança online ainda não configurada. Cadastre a chave do Mercado Pago.',
+    }
+  }
+
+  const parsed = linkSchema.safeParse(input)
+  if (!parsed.success) {
+    return { erro: parsed.error.issues[0]?.message ?? 'Dados inválidos' }
+  }
+  const d = parsed.data
+
+  const supabase = await createClient()
+
+  // Nome do cliente (para identificar a cobrança no MP).
+  const { data: at } = await supabase
+    .from('atendimentos')
+    .select('cliente_nome')
+    .eq('id', d.atendimento_id)
+    .single()
+
+  // 1) Cria a linha de pagamento pendente (correlação com o webhook).
+  const { data: pag, error: errIns } = await supabase
+    .from('pagamentos')
+    .insert({
+      tenant_id: profile.tenant_id,
+      atendimento_id: d.atendimento_id,
+      metodo: 'link',
+      valor: d.valor,
+      status: 'pendente',
+    })
+    .select('id')
+    .single()
+
+  if (errIns || !pag) {
+    return { erro: 'Não foi possível iniciar a cobrança. Tente novamente.' }
+  }
+
+  // 2) Cria a preferência no Mercado Pago.
+  try {
+    const pref = await criarPreferencia({
+      valor: d.valor,
+      descricao: at?.cliente_nome
+        ? `Atendimento — ${at.cliente_nome}`
+        : 'Atendimento',
+      externalReference: pag.id,
+      notificationUrl: `${SITE_URL}/api/webhook/mercadopago`,
+      backUrl: SITE_URL,
+      pagadorNome: at?.cliente_nome ?? undefined,
+    })
+
+    // 3) Guarda o link e o id da preferência.
+    await supabase
+      .from('pagamentos')
+      .update({ link_url: pref.initPoint, ref_gateway: pref.id })
+      .eq('id', pag.id)
+
+    revalidatePath(`/dashboard/comanda/${d.atendimento_id}`)
+    return { ok: true, link: pref.initPoint }
+  } catch {
+    // Falhou no MP: limpa a linha pendente órfã para não sujar o financeiro.
+    await supabase.from('pagamentos').delete().eq('id', pag.id)
+    return { erro: 'O Mercado Pago recusou a cobrança. Confira a chave e tente de novo.' }
+  }
 }
 
 // ── Excluir a comanda inteira (itens caem em cascata) ─────────────────────────

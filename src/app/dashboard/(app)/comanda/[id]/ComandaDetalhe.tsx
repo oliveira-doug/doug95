@@ -40,7 +40,10 @@ export function ComandaDetalhe({
 }: Props) {
   const router = useRouter()
   const prof = profissionais.find((p) => p.id === atendimento.profissional_id)
-  const pago = pagamentos.reduce((s, p) => s + p.valor, 0)
+  // Só conta como recebido o que está 'pago' (link pendente não entra no saldo).
+  const pago = pagamentos
+    .filter((p) => p.status === 'pago')
+    .reduce((s, p) => s + p.valor, 0)
   const saldo = atendimento.total - pago
 
   return (
