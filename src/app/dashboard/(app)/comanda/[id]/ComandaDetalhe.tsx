@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronLeft, Plus, Trash2, Receipt } from 'lucide-react'
+import { ChevronLeft, Plus, Trash2, Receipt, Copy, Check, Link2 } from 'lucide-react'
 import type {
   Atendimento,
   AtendimentoItem,
@@ -14,14 +14,28 @@ import type {
 } from '@/lib/supabase/types'
 import { diaLongo, dataLocal, horaLocal } from '@/lib/datas'
 import { formatarBRL, parseBRL, METODO_LABEL } from '@/lib/dinheiro'
+import { WhatsAppIcon } from '@/components/atoms/WhatsAppIcon/WhatsAppIcon'
+import { SITE } from '@/config/site'
 import {
   adicionarItem,
   removerItem,
   adicionarPagamento,
   removerPagamento,
+  gerarLinkPagamento,
   salvarObservacoes,
   excluirAtendimento,
 } from '../actions'
+
+/** Mensagem de cobrança pronta para o WhatsApp (link onde o cliente escolhe como pagar). */
+function msgCobranca(clienteNome: string, valor: number, link: string): string {
+  return (
+    `Oi ${clienteNome || ''}! 💛 Segue o link para pagar seu atendimento no ${SITE.name}` +
+    ` (${formatarBRL(valor)}). É só abrir e escolher como pagar — Pix ou cartão:\n\n${link}`
+  )
+}
+
+const waCobranca = (clienteNome: string, valor: number, link: string) =>
+  `https://wa.me/?text=${encodeURIComponent(msgCobranca(clienteNome, valor, link))}`
 
 type Props = {
   atendimento: Atendimento
@@ -134,6 +148,7 @@ export function ComandaDetalhe({
                 key={p.id}
                 pagamento={p}
                 atendimentoId={atendimento.id}
+                clienteNome={atendimento.cliente_nome ?? ''}
                 onMudou={() => router.refresh()}
               />
             ))}
@@ -145,6 +160,15 @@ export function ComandaDetalhe({
           saldoSugerido={Math.max(saldo, 0)}
           onAdicionou={() => router.refresh()}
         />
+
+        {saldo > 0 && (
+          <CobrarOnline
+            atendimentoId={atendimento.id}
+            clienteNome={atendimento.cliente_nome ?? ''}
+            saldo={saldo}
+            onGerou={() => router.refresh()}
+          />
+        )}
       </section>
 
       {/* Observações */}
@@ -317,17 +341,24 @@ function AddItemForm({
   )
 }
 
-// ── Uma linha de pagamento (com remover) ──────────────────────────────────────
+// ── Uma linha de pagamento (com status, reenvio e remover) ────────────────────
 function PagamentoLinha({
   pagamento,
   atendimentoId,
+  clienteNome,
   onMudou,
 }: {
   pagamento: Pagamento
   atendimentoId: string
+  clienteNome: string
   onMudou: () => void
 }) {
   const [pending, start] = useTransition()
+  const [copiado, setCopiado] = useState(false)
+
+  const pago = pagamento.status === 'pago'
+  const linkPendente =
+    pagamento.metodo === 'link' && !pago && Boolean(pagamento.link_url)
 
   function remover() {
     start(async () => {
@@ -336,12 +367,52 @@ function PagamentoLinha({
     })
   }
 
+  function copiar() {
+    if (!pagamento.link_url) return
+    navigator.clipboard.writeText(pagamento.link_url).then(() => {
+      setCopiado(true)
+      setTimeout(() => setCopiado(false), 2000)
+    })
+  }
+
   return (
     <li className="px-5 py-3 flex items-center justify-between gap-4">
-      <span className="font-body text-body-md text-charcoal-900">
-        {METODO_LABEL[pagamento.metodo]}
-      </span>
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="min-w-0">
+        <span className="font-body text-body-md text-charcoal-900">
+          {METODO_LABEL[pagamento.metodo]}
+        </span>
+        <span
+          className={`ml-2 font-body text-body-sm ${
+            pago ? 'text-emerald-600' : 'text-amber-600'
+          }`}
+        >
+          · {pago ? 'pago ✓' : 'aguardando'}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-2 shrink-0">
+        {linkPendente && (
+          <>
+            <button
+              onClick={copiar}
+              aria-label="Copiar link de pagamento"
+              title="Copiar link"
+              className="text-charcoal-700/40 hover:text-gold-600 transition-colors cursor-pointer"
+            >
+              {copiado ? <Check size={15} /> : <Copy size={15} />}
+            </button>
+            <a
+              href={waCobranca(clienteNome, pagamento.valor, pagamento.link_url!)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Reenviar cobrança no WhatsApp"
+              title="Reenviar no WhatsApp"
+              className="text-charcoal-700/40 hover:text-emerald-600 transition-colors"
+            >
+              <WhatsAppIcon size={15} />
+            </a>
+          </>
+        )}
         <span className="font-accent text-body-md font-medium text-charcoal-900">
           {formatarBRL(pagamento.valor)}
         </span>
@@ -355,6 +426,70 @@ function PagamentoLinha({
         </button>
       </div>
     </li>
+  )
+}
+
+// ── Cobrança online (link Mercado Pago via WhatsApp) ──────────────────────────
+function CobrarOnline({
+  atendimentoId,
+  clienteNome,
+  saldo,
+  onGerou,
+}: {
+  atendimentoId: string
+  clienteNome: string
+  saldo: number
+  onGerou: () => void
+}) {
+  const [pending, start] = useTransition()
+  const [erro, setErro] = useState<string>()
+
+  function cobrar() {
+    setErro(undefined)
+    start(async () => {
+      const res = await gerarLinkPagamento({ atendimento_id: atendimentoId, valor: saldo })
+      if (res.erro) {
+        setErro(res.erro)
+        return
+      }
+      if (res.link) {
+        // Abre o WhatsApp com a mensagem + link; o profissional escolhe o contato.
+        window.open(
+          waCobranca(clienteNome, saldo, res.link),
+          '_blank',
+          'noopener,noreferrer',
+        )
+        onGerou()
+      }
+    })
+  }
+
+  return (
+    <div className="px-5 py-4 border-t border-ivory-200 bg-gold-50/40 flex flex-col gap-2">
+      <button
+        onClick={cobrar}
+        disabled={pending}
+        className="h-11 px-5 rounded-badge border border-gold-300 bg-ivory-50 text-gold-700 font-accent text-body-md font-medium hover:bg-gold-100 disabled:opacity-60 transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+      >
+        {pending ? (
+          'Gerando link…'
+        ) : (
+          <>
+            <Link2 size={16} /> Cobrar {formatarBRL(saldo)} pelo WhatsApp
+          </>
+        )}
+      </button>
+      <p className="font-body text-body-sm text-charcoal-700/55 flex items-start gap-1.5">
+        <WhatsAppIcon size={14} />
+        Gera um link do Mercado Pago e abre o WhatsApp pra você enviar. O cliente
+        escolhe Pix ou cartão; quando pagar, marca aqui sozinho.
+      </p>
+      {erro && (
+        <p role="alert" className="font-body text-body-sm text-red-600">
+          {erro}
+        </p>
+      )}
+    </div>
   )
 }
 

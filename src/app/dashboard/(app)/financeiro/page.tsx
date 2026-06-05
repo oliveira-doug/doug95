@@ -48,8 +48,12 @@ export default async function FinanceiroPage({
       : []
 
   // ── Agregações ──────────────────────────────────────────────────────────────
+  // "Recebido" conta só pagamentos confirmados (status 'pago'); links pendentes
+  // de cobrança não entram até o cliente pagar.
+  const pagos = pagamentos.filter((p) => p.status === 'pago')
+
   const totalFaturado = atendimentos.reduce((s, a) => s + a.total, 0)
-  const totalRecebido = pagamentos.reduce((s, p) => s + p.valor, 0)
+  const totalRecebido = pagos.reduce((s, p) => s + p.valor, 0)
 
   const porProfissional = profissionais
     .map((p) => {
@@ -64,10 +68,10 @@ export default async function FinanceiroPage({
     .filter((p) => p.count > 0)
     .sort((a, b) => b.total - a.total)
 
-  const porMetodo = (['pix', 'cartao', 'dinheiro'] as PagamentoMetodo[])
+  const porMetodo = (['pix', 'cartao', 'dinheiro', 'link'] as PagamentoMetodo[])
     .map((m) => ({
       metodo: m,
-      total: pagamentos.filter((p) => p.metodo === m).reduce((s, p) => s + p.valor, 0),
+      total: pagos.filter((p) => p.metodo === m).reduce((s, p) => s + p.valor, 0),
     }))
     .filter((m) => m.total > 0)
 
