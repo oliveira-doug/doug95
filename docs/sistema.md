@@ -18,6 +18,11 @@ celular como PWA (tela cheia, ícone próprio, offline básico, notificações).
 As mesmas variáveis de ambiente do site já bastam
 (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
 
+**Deploy pessoal (home = Sistema)**: defina `SISTEMA_HOME=1` no ambiente
+(Vercel → Settings → Environment Variables) e a raiz `/` passa a
+redirecionar para `/sistema`. Sem a env, a raiz continua sendo o site do
+salão — útil quando o mesmo repositório alimenta os dois deploys.
+
 ## Instalar no celular
 
 - **Android/Chrome**: banner "Instalar aplicativo" ou Config → Instalar o

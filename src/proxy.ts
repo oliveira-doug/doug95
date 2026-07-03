@@ -9,6 +9,14 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function proxy(request: NextRequest) {
+  // SISTEMA_HOME=1 (env do deploy): este deploy é do app pessoal — a raiz
+  // vira a porta do Sistema. Sem a env, a raiz segue sendo o site do salão.
+  if (process.env.SISTEMA_HOME === '1' && request.nextUrl.pathname === '/') {
+    const redirect = request.nextUrl.clone()
+    redirect.pathname = '/sistema'
+    return NextResponse.redirect(redirect)
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
