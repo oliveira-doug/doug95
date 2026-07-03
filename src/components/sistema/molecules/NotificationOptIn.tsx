@@ -6,6 +6,39 @@
 import { useEffect, useState } from 'react'
 import { Bell, BellRing } from 'lucide-react'
 import { useMounted } from '../useMounted'
+import { salvarInscricaoPush } from '@/app/sistema/(app)/config/actions'
+
+// Chave pública VAPID (opcional). Sem ela, o app fica só com o lembrete
+// local ao abrir; com ela, também recebe o push diário do servidor.
+const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+  const rawData = window.atob(base64)
+  const outputArray = new Uint8Array(rawData.length)
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i)
+  }
+  return outputArray
+}
+
+/** Inscreve o aparelho no web push (se houver chave VAPID configurada). */
+async function inscreverPush() {
+  if (!VAPID_PUBLIC_KEY || !('PushManager' in window)) return
+  try {
+    const registration = await navigator.serviceWorker.ready
+    const sub =
+      (await registration.pushManager.getSubscription()) ??
+      (await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      }))
+    await salvarInscricaoPush(JSON.parse(JSON.stringify(sub)))
+  } catch {
+    /* push é opcional — o lembrete local continua funcionando */
+  }
+}
 
 export function NotificationOptIn({
   questsPendentes,
@@ -22,6 +55,11 @@ export function NotificationOptIn({
   const permissao = suportado
     ? (permissaoNova ?? Notification.permission)
     : 'default'
+
+  // Com permissão concedida, garante a inscrição de push deste aparelho.
+  useEffect(() => {
+    if (suportado && permissao === 'granted') void inscreverPush()
+  }, [suportado, permissao])
 
   // Lembrete local ao abrir com quests pendentes (1×/dia por sessão) —
   // efeito puro de sistema externo, sem setState.

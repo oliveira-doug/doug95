@@ -49,10 +49,23 @@ As mesmas variáveis de ambiente do site já bastam
 Fonte versionada em `public/sistema/icons/icon.svg`; regenerar PNGs com
 `node scripts/sistema-icons.mjs`.
 
-## Push real (v1.5 — opcional, ainda não ligado)
+## Push diário do servidor (opcional)
 
-A tabela `sistema_push_subscriptions` e os handlers `push`/
-`notificationclick` do service worker (`public/sistema-sw.js`) já estão
-prontos. Falta: chaves VAPID + dependência `web-push` + rota de envio
-agendada (cron da Vercel). As notificações v1 (lembrete local ao abrir o
-app + badge) já funcionam sem servidor.
+Já implementado — falta só configurar as envs. Sem elas o app funciona
+normal (fica o lembrete local ao abrir + badge).
+
+1. Gerar o par de chaves: `npx web-push generate-vapid-keys`.
+2. Na Vercel (Project → Settings → Environment Variables), definir:
+   `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`,
+   `VAPID_SUBJECT` (`mailto:seu-email`) e `CRON_SECRET`
+   (string aleatória longa — a Vercel usa para autenticar o cron).
+3. Redeploy. O cron do `vercel.json` roda todo dia às 10:00 UTC
+   (07:00 em São Paulo) chamando `/api/sistema/push/daily`, que envia
+   "Quest diária disponível" a cada aparelho inscrito que ainda tenha
+   quests pendentes no dia.
+4. No app: Config → Ativar notificações (o aparelho se inscreve sozinho
+   quando a permissão é concedida). iOS exige o app instalado na tela de
+   início (iOS 16.4+).
+
+Teste manual: `curl -H "Authorization: Bearer $CRON_SECRET" \
+https://<seu-dominio>/api/sistema/push/daily`.
