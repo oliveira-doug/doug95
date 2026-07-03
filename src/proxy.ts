@@ -48,12 +48,23 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(redirect)
   }
 
+  // "O Sistema" (/sistema) — mesmo esquema do dashboard, com login próprio.
+  const isSistema = pathname.startsWith('/sistema')
+  const isSistemaLogin = pathname === '/sistema/login'
+
+  if (isSistema && !isSistemaLogin && !user) {
+    const redirect = request.nextUrl.clone()
+    redirect.pathname = '/sistema/login'
+    redirect.searchParams.set('next', pathname)
+    return NextResponse.redirect(redirect)
+  }
+
   return response
 }
 
 export const config = {
   // Roda em tudo, menos estáticos e imagens.
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|icon.svg|opengraph-image|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|icon.svg|opengraph-image|sistema-sw\\.js|.*\\.(?:svg|png|jpg|jpeg|gif|webp|webmanifest)$).*)',
   ],
 }

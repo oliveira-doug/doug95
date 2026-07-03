@@ -266,3 +266,102 @@
    • animações infinitas ...... no máx. 1 detalhe por tela.
    • --shadow-glow-gold ....... reservar para 1 momento (CTA principal).
    ════════════════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════════════════
+   "O SISTEMA" (/sistema) — tema holográfico Solo Leveling · append-only
+   Tokens/keyframes/utilities usados APENAS sob .sistema-root; nada aqui
+   afeta o site do salão (utilities só geram CSS quando usadas).
+   ════════════════════════════════════════════════════════════════════════ */
+@theme {
+  /* Fontes injetadas pelo next/font no layout de /sistema (não no root) */
+  --font-system-display: var(--font-orbitron), "Segoe UI", sans-serif;
+  --font-system-body:    var(--font-rajdhani), system-ui, sans-serif;
+
+  /* Paleta ciano-holográfica sobre navy profundo */
+  --color-system-100: #e8fbff;
+  --color-system-200: #b8f1ff;
+  --color-system-300: #7df9ff;  /* glow */
+  --color-system-400: #33e0ff;
+  --color-system-500: #00cfff;  /* ciano principal */
+  --color-system-600: #00a3d6;
+  --color-system-700: #10688f;
+  --color-system-800: #133a54;  /* bordas apagadas */
+  --color-system-900: #0d2136;  /* painel */
+  --color-system-950: #0a1220;  /* fundo */
+
+  --shadow-glow-system:        0 0 24px 0 rgba(0, 207, 255, 0.35);
+  --shadow-glow-system-strong: 0 0 48px 4px rgba(0, 207, 255, 0.5);
+
+  --animate-system-flicker: system-flicker 4s ease-in-out infinite;
+  --animate-scanline:       scanline 7s linear infinite;
+  --animate-level-up-burst: level-up-burst 0.9s var(--ease-spring) both;
+  --animate-system-pop:     system-pop 0.35s var(--ease-spring) both;
+}
+
+@keyframes system-flicker {
+  0%, 100% { opacity: 1; }
+  92%      { opacity: 1; }
+  93%      { opacity: 0.6; }
+  94%      { opacity: 1; }
+  97%      { opacity: 0.8; }
+  98%      { opacity: 1; }
+}
+@keyframes scanline {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(100vh); }
+}
+@keyframes level-up-burst {
+  0%   { transform: scale(0.4); opacity: 0; filter: blur(8px); }
+  55%  { transform: scale(1.12); opacity: 1; filter: blur(0); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes system-pop {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* Painel holográfico: cantos recortados + borda ciano + brilho interno */
+@utility holo-panel {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(0, 207, 255, 0.08) 0%, rgba(0, 207, 255, 0.02) 100%),
+    color-mix(in srgb, var(--color-system-900) 92%, transparent);
+  border: 1px solid rgba(0, 207, 255, 0.35);
+  box-shadow:
+    inset 0 0 24px 0 rgba(0, 207, 255, 0.07),
+    0 0 16px 0 rgba(0, 207, 255, 0.12);
+  clip-path: polygon(
+    0 0.75rem, 0.75rem 0, calc(100% - 0.75rem) 0, 100% 0.75rem,
+    100% calc(100% - 0.75rem), calc(100% - 0.75rem) 100%, 0.75rem 100%, 0 calc(100% - 0.75rem)
+  );
+}
+
+@utility text-glow-system {
+  color: var(--color-system-300);
+  text-shadow: 0 0 8px rgba(0, 207, 255, 0.9), 0 0 24px rgba(0, 207, 255, 0.45);
+}
+
+/* Grade de fundo estilo interface de jogo */
+@utility bg-system-grid {
+  background-image:
+    linear-gradient(rgba(0, 207, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 207, 255, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Base do app: escopo .sistema-root (nunca no body) */
+.sistema-root {
+  background-color: var(--color-system-950);
+  color: var(--color-system-100);
+  font-family: var(--font-system-body);
+  -webkit-tap-highlight-color: transparent;
+}
+/* O grão do salão destoa do visual holográfico — some dentro do sistema */
+body:has(.sistema-root) .grain-overlay { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sistema-root * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
