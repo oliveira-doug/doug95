@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Fonte dos ícones da PWA "O Sistema" (gerar PNGs com scripts/sistema-icons.mjs) -->
+  <defs>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7df9ff"/>
+      <stop offset="1" stop-color="#00cfff"/>
+    </linearGradient>
+    <filter id="blur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="96" fill="#0a1220"/>
+
+  <!-- Grade sutil -->
+  <g stroke="#00cfff" stroke-opacity="0.07" stroke-width="2">
+    <path d="M0 128h512M0 256h512M0 384h512M128 0v512M256 0v512M384 0v512"/>
+  </g>
+
+  <!-- Portão hexagonal com brilho -->
+  <g>
+    <polygon points="256,72 408,164 408,348 256,440 104,348 104,164"
+             fill="none" stroke="#00cfff" stroke-width="18" opacity="0.55" filter="url(#blur)"/>
+    <polygon points="256,72 408,164 408,348 256,440 104,348 104,164"
+             fill="none" stroke="url(#glow)" stroke-width="12"/>
+  </g>
+
+  <!-- Núcleo: losango de mana -->
+  <g>
+    <polygon points="256,150 352,256 256,362 160,256"
+             fill="#00cfff" opacity="0.5" filter="url(#blur)"/>
+    <polygon points="256,150 352,256 256,362 160,256" fill="url(#glow)"/>
+    <polygon points="256,196 314,256 256,316 198,256" fill="#0a1220"/>
+    <polygon points="256,222 290,256 256,290 222,256" fill="#e8fbff"/>
+  </g>
+</svg>

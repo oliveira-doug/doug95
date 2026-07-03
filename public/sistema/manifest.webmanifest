@@ -1,0 +1,31 @@
+{
+  "name": "O Sistema",
+  "short_name": "Sistema",
+  "description": "Sistema pessoal de evolução — quests diárias, XP, atributos, habilidades e loja.",
+  "id": "/sistema",
+  "start_url": "/sistema",
+  "scope": "/sistema",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a1220",
+  "theme_color": "#0a1220",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/sistema/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/sistema/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/sistema/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
